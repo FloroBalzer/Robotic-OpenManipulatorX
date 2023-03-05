@@ -331,26 +331,33 @@ pause(1)
 
 
 %% ---------Read_Position_code--------- %%
-% dxl_11_present_position = read4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_present_position);
-% dxl_12_present_position = read4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_present_position);
-% dxl_13_present_position = read4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_present_position);
-% dxl_14_present_position = read4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_present_position);
-% dxl_15_present_position = read4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_present_position);
-% dxl_comm_result = getLastTxRxResult(port_num, protocol_version);
-%         
-% dxl_error = getLastRxPacketError(port_num, protocol_version);
-% 
-% if dxl_comm_result ~= comm_success
-%     fprintf('%s\n', getTxRxResult(protocol_version, dxl_comm_result));
-% elseif dxl_error ~= 0
-%     fprintf('%s\n', getRxPacketError(protocol_version, dxl_error));
-% end
-% 
-% fprintf('[ID:%03d] Position11: %03d\n', dxl_11, typecast(uint32(dxl_11_present_position), 'int32'));
-% fprintf('[ID:%03d] Position12: %03d\n', dxl_12, typecast(uint32(dxl_12_present_position), 'int32'));
-% fprintf('[ID:%03d] Position13: %03d\n', dxl_13, typecast(uint32(dxl_13_present_position), 'int32'));
-% fprintf('[ID:%03d] Position14: %03d\n', dxl_14, typecast(uint32(dxl_14_present_position), 'int32'));
-% fprintf('[ID:%03d] Position15: %03d\n', dxl_15, typecast(uint32(dxl_15_present_position), 'int32'));
+dxl_11_present_position = read4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_present_position);
+dxl_12_present_position = read4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_present_position);
+dxl_13_present_position = read4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_present_position);
+dxl_14_present_position = read4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_present_position);
+dxl_15_present_position = read4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_present_position);
+dxl_comm_result = getLastTxRxResult(port_num, protocol_version);
+
+dxl_11_present_angle = dxl_11_present_position*0.088; %needs offset
+dxl_12_present_angle = dxl_12_present_position*0.088; %needs offset
+dxl_13_present_angle = dxl_13_present_position*0.088; %needs offset
+dxl_14_present_angle = dxl_14_present_position*0.088; %needs offset
+dxl_15_present_angle = dxl_15_present_position*0.088; %needs offset
+Simulation(dxl_11_present_angle, dxl_12_present_angle, dxl_13_present_angle, dxl_14_present_angle);
+        
+dxl_error = getLastRxPacketError(port_num, protocol_version);
+
+if dxl_comm_result ~= comm_success
+    fprintf('%s\n', getTxRxResult(protocol_version, dxl_comm_result));
+elseif dxl_error ~= 0
+    fprintf('%s\n', getRxPacketError(protocol_version, dxl_error));
+end
+
+fprintf('[ID:%03d] Position11: %03d\n', dxl_11, typecast(uint32(dxl_11_present_position), 'int32'));
+fprintf('[ID:%03d] Position12: %03d\n', dxl_12, typecast(uint32(dxl_12_present_position), 'int32'));
+fprintf('[ID:%03d] Position13: %03d\n', dxl_13, typecast(uint32(dxl_13_present_position), 'int32'));
+fprintf('[ID:%03d] Position14: %03d\n', dxl_14, typecast(uint32(dxl_14_present_position), 'int32'));
+fprintf('[ID:%03d] Position15: %03d\n', dxl_15, typecast(uint32(dxl_15_present_position), 'int32'));
 
 %% ---------Power_off--------- %%
 % Disable Dynamixel Torque
