@@ -91,7 +91,7 @@ dxl_14                      = 14;            % Dynamixel ID: 1
 dxl_15                      = 15;            % Dynamixel ID: 1
 
 baudrate                     = 115200;
-device_name                  = 'COM8';       % Check which port is being used on your controller
+device_name                  = 'COM10';       % Check which port is being used on your controller
                                             % ex) Windows: 'COM1'   Linux: '/dev/ttyUSB0' Mac: '/dev/tty.usbserial-*'
                                             
 torque_enable               = 1;            % Value for enabling the torque
@@ -166,11 +166,11 @@ write1ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_torque_enable, torqu
 write1ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_torque_enable, torque_enable);
 
 %Move into Start Position
-write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, 2050);
-write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, 1252);
-write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, 2292);
-write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, 2608);
-write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 3300);
+write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, 180/0.088);
+write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, 100/0.088);
+write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, 210/0.088);
+write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, 230/0.088);
+write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 180/0.088);
 pause(1)
 
 task_select = input('select task: cube, pen, chess');
@@ -179,20 +179,20 @@ switch task_select
     case 'cube'
         %Move into starting position for cube task
         write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, 1980);
+        write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, 180/0.088);
         
         write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, 1732);
+        write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, 180/0.088);
         
         write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, 2224);
+        write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, 180/0.088);
         
         write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, 3165);
+        write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, 270/0.088);
         
         write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 881); 
-        pause(1)
+        write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 90/0.088); 
+        pause(2)
     case 'pen'
         %Move into starting position for pen task
         write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_profile_acceleration, 10000);
@@ -211,153 +211,72 @@ switch task_select
         write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 881); 
         pause(1)
     case 'chess'
-    case 'suicide'
-        %Move into starting position for suicide task
-        write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, 1980);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, 1732);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, 2224);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, 3165);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 881); 
-        pause(1)
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, 2047);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, 2289);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, 1778);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, 3155);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 634); 
-        pause(1)
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, 2039);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, 2378);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, 1884);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, 2945);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 634); 
-        pause(1)
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, 2041);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, 2380);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, 1896);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, 2914);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 3500); 
-        pause(1)
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, 2045);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, 2165);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, 2215);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, 2808);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_velocity_limit, 256);
-        write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 3500); 
-        pause(1)
 end
 
 %Return To Start Position
-write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_velocity_limit, 256);
-write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, 2050);
+write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_velocity_limit, 128);
+write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, 180/0.088);
 
-write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_velocity_limit, 256);
-write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, 1252);
+write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_velocity_limit, 128);
+write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, 100/0.088);
 
-write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_velocity_limit, 256);
-write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, 2292);
+write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_velocity_limit, 128);
+write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, 210/0.088);
 
-write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_velocity_limit, 256);
-write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, 2608);
+write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_velocity_limit, 128);
+write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, 230/0.088);
 
-write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_velocity_limit, 256);
-write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 3300);
-pause(1)
+write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_velocity_limit, 128);
+write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 180/0.088);
+pause(2)
 
 %Lower to OFF Position
-write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_velocity_limit, 256);
-write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, 1992);
+write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_velocity_limit, 64);
+write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, 180/0.088);
         
-write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_velocity_limit, 256);
-write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, 745);
+write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_velocity_limit, 64);
+write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, 75/0.088);
         
-write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_velocity_limit, 256);
-write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, 2960);
+write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_velocity_limit, 64);
+write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, 250/0.088);
         
-write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_velocity_limit, 256);
-write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, 2458);
+write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_velocity_limit, 64);
+write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, 220/0.088);
         
-write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_velocity_limit, 256);
-write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 881); 
+write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_velocity_limit, 64);
+write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 180/0.088); 
 pause(1)
 
 
 
 %% ---------Read_Position_code--------- %%
-dxl_11_present_position = read4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_present_position);
-dxl_12_present_position = read4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_present_position);
-dxl_13_present_position = read4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_present_position);
-dxl_14_present_position = read4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_present_position);
-dxl_15_present_position = read4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_present_position);
-dxl_comm_result = getLastTxRxResult(port_num, protocol_version);
-
-dxl_11_present_angle = dxl_11_present_position*0.088; %needs offset
-dxl_12_present_angle = dxl_12_present_position*0.088; %needs offset
-dxl_13_present_angle = dxl_13_present_position*0.088; %needs offset
-dxl_14_present_angle = dxl_14_present_position*0.088; %needs offset
-dxl_15_present_angle = dxl_15_present_position*0.088; %needs offset
-Simulation(dxl_11_present_angle, dxl_12_present_angle, dxl_13_present_angle, dxl_14_present_angle);
-        
-dxl_error = getLastRxPacketError(port_num, protocol_version);
-
-if dxl_comm_result ~= comm_success
-    fprintf('%s\n', getTxRxResult(protocol_version, dxl_comm_result));
-elseif dxl_error ~= 0
-    fprintf('%s\n', getRxPacketError(protocol_version, dxl_error));
-end
-
-fprintf('[ID:%03d] Position11: %03d\n', dxl_11, typecast(uint32(dxl_11_present_position), 'int32'));
-fprintf('[ID:%03d] Position12: %03d\n', dxl_12, typecast(uint32(dxl_12_present_position), 'int32'));
-fprintf('[ID:%03d] Position13: %03d\n', dxl_13, typecast(uint32(dxl_13_present_position), 'int32'));
-fprintf('[ID:%03d] Position14: %03d\n', dxl_14, typecast(uint32(dxl_14_present_position), 'int32'));
-fprintf('[ID:%03d] Position15: %03d\n', dxl_15, typecast(uint32(dxl_15_present_position), 'int32'));
+% dxl_11_present_position = read4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_present_position);
+% dxl_12_present_position = read4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_present_position);
+% dxl_13_present_position = read4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_present_position);
+% dxl_14_present_position = read4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_present_position);
+% dxl_15_present_position = read4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_present_position);
+% dxl_comm_result = getLastTxRxResult(port_num, protocol_version);
+% 
+% dxl_11_present_angle = dxl_11_present_position*0.088; %needs offset
+% dxl_12_present_angle = dxl_12_present_position*0.088; %needs offset
+% dxl_13_present_angle = dxl_13_present_position*0.088; %needs offset
+% dxl_14_present_angle = dxl_14_present_position*0.088; %needs offset
+% dxl_15_present_angle = dxl_15_present_position*0.088; %needs offset
+% Simulation(dxl_11_present_angle, dxl_12_present_angle, dxl_13_present_angle, dxl_14_present_angle);
+%         
+% dxl_error = getLastRxPacketError(port_num, protocol_version);
+% 
+% if dxl_comm_result ~= comm_success
+%     fprintf('%s\n', getTxRxResult(protocol_version, dxl_comm_result));
+% elseif dxl_error ~= 0
+%     fprintf('%s\n', getRxPacketError(protocol_version, dxl_error));
+% end
+% 
+% fprintf('[ID:%03d] Position11: %03d\n', dxl_11, typecast(uint32(dxl_11_present_position), 'int32'));
+% fprintf('[ID:%03d] Position12: %03d\n', dxl_12, typecast(uint32(dxl_12_present_position), 'int32'));
+% fprintf('[ID:%03d] Position13: %03d\n', dxl_13, typecast(uint32(dxl_13_present_position), 'int32'));
+% fprintf('[ID:%03d] Position14: %03d\n', dxl_14, typecast(uint32(dxl_14_present_position), 'int32'));
+% fprintf('[ID:%03d] Position15: %03d\n', dxl_15, typecast(uint32(dxl_15_present_position), 'int32'));
 
 %% ---------Power_off--------- %%
 % Disable Dynamixel Torque

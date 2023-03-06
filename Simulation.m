@@ -1,5 +1,4 @@
-%function Simulation(t1, t3, t4, t5)
-%Plotting joint axes
+function Simulation(t1, t3, t4, t5)
 clf
 grid on
 
@@ -8,7 +7,7 @@ ylim([-0.20, 0.20]);
 zlim([0, 0.40]);
 view(135, 45);
 
-[T01, T12, T23, T34,T02, T03, T04, T05] = ForwardKinematics(0, 180, 200, 30);
+[T01, T12, T23, T34,T02, T03, T04, T05, T06] = ForwardKinematics(t1, t3-79, t4-101, t5-180);%(t1, t3, t4, t5);
 
 
 base = [0; 0; 0; 1];
@@ -60,8 +59,8 @@ n_origin_old = n_origin;
 % X_val = [n_origin_old(1,1), n_origin(1,1)]; Y_val = [n_origin_old(1,2), n_origin(1,2)]; Z_val = [n_origin_old(1,3), n_origin(1,3)];
 % plot3(X_val, Y_val, Z_val,'LineWidth', 3, 'Color', 'k');
 % n_origin_old = n_origin;
-% 
-% % Joint 3
+
+% Joint 3
 n_origin = transpose(T03*base);
 n_origin = n_origin(1:end-1);
 
@@ -128,5 +127,31 @@ plot3(X_val, Y_val, Z_val,'LineWidth', 1, 'Color', 'r');
 
 X_val = [n_origin_old(1,1), n_origin(1,1)]; Y_val = [n_origin_old(1,2), n_origin(1,2)]; Z_val = [n_origin_old(1,3), n_origin(1,3)];
 plot3(X_val, Y_val, Z_val,'LineWidth', 3, 'Color', 'k');
+n_origin_old = n_origin;
+
+% % Joint 6
+n_origin = transpose(T06*base);
+n_origin = n_origin(1:end-1);
+
+X = transpose([T06(1,1:end-1); T06(2,1:end-1); T06(3,1:end-1)]*[0.05; 0; 0]);
+Y = transpose([T06(1,1:end-1); T06(2,1:end-1); T06(3,1:end-1)]*[0; 0.05; 0]);
+Z = transpose([T06(1,1:end-1); T06(2,1:end-1); T06(3,1:end-1)]*[0; 0; 0.05]);
+
+X_pos = n_origin + X;
+Y_pos = n_origin + Y;
+Z_pos = n_origin + Z;
+
+X_val = [X_pos(1,1), n_origin(1,1)]; Y_val = [X_pos(1,2), n_origin(1,2)]; Z_val = [X_pos(1,3), n_origin(1,3)];
+plot3(X_val, Y_val, Z_val,'LineWidth', 1, 'Color', 'g');
+X_val = [Y_pos(1,1), n_origin(1,1)]; Y_val = [Y_pos(1,2), n_origin(1,2)]; Z_val = [Y_pos(1,3), n_origin(1,3)];
+plot3(X_val, Y_val, Z_val,'LineWidth', 1, 'Color', 'b');
+X_val = [Z_pos(1,1), n_origin(1,1)]; Y_val = [Z_pos(1,2), n_origin(1,2)]; Z_val = [Z_pos(1,3), n_origin(1,3)];
+plot3(X_val, Y_val, Z_val,'LineWidth', 1, 'Color', 'r');
+
+X_val = [n_origin_old(1,1), n_origin(1,1)]; Y_val = [n_origin_old(1,2), n_origin(1,2)]; Z_val = [n_origin_old(1,3), n_origin(1,3)];
+plot3(X_val, Y_val, Z_val,'LineWidth', 3, 'Color', 'k');
+
+disp('Endposition');
+disp(T06(1:end-1,4));
 hold off
-%end
+end

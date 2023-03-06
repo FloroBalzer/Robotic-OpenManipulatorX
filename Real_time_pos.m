@@ -91,7 +91,7 @@ dxl_14                      = 14;            % Dynamixel ID: 1
 dxl_15                      = 15;            % Dynamixel ID: 1
 
 baudrate                     = 115200;
-device_name                  = 'COM8';       % Check which port is being used on your controller
+device_name                  = 'COM10';       % Check which port is being used on your controller
                                             % ex) Windows: 'COM1'   Linux: '/dev/ttyUSB0' Mac: '/dev/tty.usbserial-*'
                                             
 torque_enable               = 1;            % Value for enabling the torque
@@ -160,7 +160,7 @@ write1ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_operating_mode, pos_
 
 %% ---------Read_Position_code--------- %%
 i = 0;
-while(i<500)
+while(i<8)
     dxl_11_present_position = read4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_present_position);
     dxl_12_present_position = read4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_present_position);
     dxl_13_present_position = read4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_present_position);
@@ -172,8 +172,20 @@ while(i<500)
     dxl_13_present_angle = dxl_13_present_position*0.088; %needs offset
     dxl_14_present_angle = dxl_14_present_position*0.088; %needs offset
     dxl_15_present_angle = dxl_15_present_position*0.088; %needs offset
-    Simulation(dxl_11_present_angle, dxl_12_present_angle, dxl_13_present_angle, dxl_14_present_angle);
+        
+    fprintf('[ID:%03d] Position11: %03d\n', dxl_11, typecast(uint32(dxl_11_present_position), 'int32'));
+    fprintf('[ID:%03d] Angle11: %d\n', dxl_11, dxl_11_present_angle);
+    fprintf('[ID:%03d] Position12: %03d\n', dxl_12, typecast(uint32(dxl_12_present_position), 'int32'));
+    fprintf('[ID:%03d] Angle12: %d\n', dxl_12, dxl_12_present_angle);
+    fprintf('[ID:%03d] Position13: %03d\n', dxl_13, typecast(uint32(dxl_13_present_position), 'int32'));
+    fprintf('[ID:%03d] Angle13: %d\n', dxl_13, dxl_13_present_angle);
+    fprintf('[ID:%03d] Position14: %03d\n', dxl_14, typecast(uint32(dxl_14_present_position), 'int32'));
+    fprintf('[ID:%03d] Angle14: %d\n', dxl_14, dxl_14_present_angle);
+    fprintf('[ID:%03d] Position15: %03d\n', dxl_15, typecast(uint32(dxl_15_present_position), 'int32'));   
+    fprintf('[ID:%03d] Angle15: %d\n', dxl_15, dxl_15_present_angle);
     
+    Simulation(dxl_11_present_angle, dxl_12_present_angle, dxl_13_present_angle, dxl_14_present_angle);
+        
     pause(0.5)
     i=i+1;
 end
