@@ -91,7 +91,7 @@ dxl_14                      = 14;            % Dynamixel ID: 1
 dxl_15                      = 15;            % Dynamixel ID: 1
 
 baudrate                     = 115200;
-device_name                  = 'COM10';       % Check which port is being used on your controller
+device_name                  = 'COM11';       % Check which port is being used on your controller
                                             % ex) Windows: 'COM1'   Linux: '/dev/ttyUSB0' Mac: '/dev/tty.usbserial-*'
                                             
 torque_enable               = 1;            % Value for enabling the torque
@@ -160,7 +160,7 @@ write1ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_operating_mode, pos_
 
 %% ---------Read_Position_code--------- %%
 i = 0;
-while(i<8)
+while(i<30)
     dxl_11_present_position = read4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_present_position);
     dxl_12_present_position = read4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_present_position);
     dxl_13_present_position = read4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_present_position);

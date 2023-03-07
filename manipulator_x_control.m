@@ -91,7 +91,7 @@ dxl_14                      = 14;            % Dynamixel ID: 1
 dxl_15                      = 15;            % Dynamixel ID: 1
 
 baudrate                     = 115200;
-device_name                  = 'COM10';       % Check which port is being used on your controller
+device_name                  = 'COM11';       % Check which port is being used on your controller
                                             % ex) Windows: 'COM1'   Linux: '/dev/ttyUSB0' Mac: '/dev/tty.usbserial-*'
                                             
 torque_enable               = 1;            % Value for enabling the torque

@@ -1,7 +1,7 @@
 function [T01, T12, T23, T34,T02, T03, T04, T05, T06] = ForwardKinematics(t1, t3, t4, t5)
 
 % DH parameters
-t0 = atand(0.024/0.128);
+t0 = acosd((0.130^2+0.128^2-0.024^2)/(2*0.130*0.128));
 t2 = 0;
 
 a0 = 0;       alpha0 = 0;     d1 = 0;         theta1 = t1;              % Link 1

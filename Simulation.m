@@ -5,7 +5,8 @@ grid on
 xlim([-0.20, 0.20]);
 ylim([-0.20, 0.20]); 
 zlim([0, 0.40]);
-view(135, 45);
+
+view(180, 0);
 
 [T01, T12, T23, T34,T02, T03, T04, T05, T06] = ForwardKinematics(t1, t3-79, t4-101, t5-180);%(t1, t3, t4, t5);
 
