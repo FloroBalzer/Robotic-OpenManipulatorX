@@ -26,7 +26,6 @@ ylim([-0.40, 0.40]);
 zlim([0, 0.80]);
 view(135, 45);
 
-%calculate Forward Kinematics
 [T01, T12, T23, T34,T02, T03, T04, T05] = ForwardKinematics(t1, t2-79, t3-101, t4-180);%(t1, t2, t3, t4);
 base = [0; 0; 0; 1];
 

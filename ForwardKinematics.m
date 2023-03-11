@@ -11,7 +11,7 @@ a4 = 0.126;   alpha4 = 0;     d5 = 0;         theta5 = 0;               % Grippe
 
 
 
-
+%Tansformation Matrices
 T01 = Trans_Matrix(a0, alpha0, d1, theta1);
 T12 = Trans_Matrix(a1, alpha1, d2, theta2);
 T23 = Trans_Matrix(a2, alpha2, d3, theta3);
