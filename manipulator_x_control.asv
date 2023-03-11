@@ -160,11 +160,11 @@ Path = [];
 
 %% ---------Start--------- %%
 %Set actuator to Time-Based Drive Mode
-write1ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_drive_mode, 0b00000100);
-write1ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_drive_mode, 0b00000100);
-write1ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_drive_mode, 0b00000100);
-write1ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_drive_mode, 0b00000100);
-write1ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_drive_mode, 0b00000100);
+write1ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_drive_mode, 0);
+write1ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_drive_mode, pos_control_mode);
+write1ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_drive_mode, pos_control_mode);
+write1ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_drive_mode, pos_control_mode);
+write1ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_drive_mode, pos_control_mode);
 
 % Put actuator into Position Control Mode
 write1ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_operating_mode, pos_control_mode);

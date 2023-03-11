@@ -158,9 +158,9 @@ write1ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_operating_mode, pos_
 write1ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_operating_mode, pos_control_mode);
 write1ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_operating_mode, pos_control_mode);
 
+
 %% ---------Read_Position_code--------- %%
-i = 0;
-while(i<30)
+while(1)
     dxl_11_present_position = read4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_present_position);
     dxl_12_present_position = read4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_present_position);
     dxl_13_present_position = read4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_present_position);
@@ -187,7 +187,6 @@ while(i<30)
     Simulation(dxl_11_present_angle, dxl_12_present_angle, dxl_13_present_angle, dxl_14_present_angle);
         
     pause(0.5)
-    i=i+1;
 end
 
 %% ---------Power_off--------- %%
