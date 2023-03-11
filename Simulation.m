@@ -27,10 +27,24 @@ zlim([0, 0.80]);
 view(135, 45);
 
 %calculate Forward Kinematics
-[T01, T12, T23, T34,T02, T03, T04, T05] = ForwardKinematics(t1, t2-79, t3-101, t4-180);%(t1, t2, t3, t4);
-base = [0; 0; 0; 1];
+[T01, T12, T23, T34,T02, T03, T04, T05] = ForwardKinematics(t1, t2, t3, t4);%(t1, t2, t3, t4);
+
+
 
 hold on
+%% Base
+base = [0; 0; 0; 1];
+origin = [0, 0, 0];
+X_pos = [0.05, 0, 0];
+Y_pos = [0, 0.05, 0];
+Z_pos = [0, 0, 0.05];
+
+X_val = [X_pos(1,1), origin(1,1)]; Y_val = [X_pos(1,2), origin(1,2)]; Z_val = [X_pos(1,3), origin(1,3)];
+plot3(X_val, Y_val, Z_val,'LineWidth', 1, 'Color', [0.4660 0.6740 0.1880]);
+X_val = [Y_pos(1,1), origin(1,1)]; Y_val = [Y_pos(1,2), origin(1,2)]; Z_val = [Y_pos(1,3), origin(1,3)];
+plot3(X_val, Y_val, Z_val,'LineWidth', 1, 'Color', [0 0.4470 0.7410]);
+X_val = [Z_pos(1,1), origin(1,1)]; Y_val = [Z_pos(1,2), origin(1,2)]; Z_val = [Z_pos(1,3), origin(1,3)];
+plot3(X_val, Y_val, Z_val,'LineWidth', 1, 'Color', [0.6350 0.0780 0.1840]);
 %% Joint 1
 n_origin = [0, 0, 0];
 
@@ -71,5 +85,7 @@ CoordinateFrame(T05, n_origin, n_origin_old);
 
 disp('Endposition');
 disp(T05(1:end-1,4));
+disp('T05');
+disp(T05);
 hold off
 end

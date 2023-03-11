@@ -91,7 +91,7 @@ dxl_14                      = 14;            % Dynamixel ID: 1
 dxl_15                      = 15;            % Dynamixel ID: 1
 
 baudrate                     = 115200;
-device_name                  = 'COM11';       % Check which port is being used on your controller
+device_name                  = 'COM12';       % Check which port is being used on your controller
                                             % ex) Windows: 'COM1'   Linux: '/dev/ttyUSB0' Mac: '/dev/tty.usbserial-*'
                                             
 torque_enable               = 1;            % Value for enabling the torque
@@ -160,11 +160,11 @@ Path = [];
 
 %% ---------Start--------- %%
 %Set actuator to Time-Based Drive Mode
-write1ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_drive_mode, 0b00000100);
-write1ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_drive_mode, 0b00000100);
-write1ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_drive_mode, 0b00000100);
-write1ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_drive_mode, 0b00000100);
-write1ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_drive_mode, 0b00000100);
+write1ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_drive_mode, 4);
+write1ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_drive_mode, 4);
+write1ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_drive_mode, 4);
+write1ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_drive_mode, 4);
+write1ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_drive_mode, 4);
 
 % Put actuator into Position Control Mode
 write1ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_operating_mode, pos_control_mode);
@@ -180,11 +180,23 @@ write1ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_torque_enable, torqu
 write1ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_torque_enable, torque_enable);
 write1ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_torque_enable, torque_enable);
 
+%Set acceleration Profile
+write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_profile_acceleration, 30000);
+write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_profile_acceleration, 30000);
+write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_profile_acceleration, 30000);
+write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_profile_acceleration, 30000);
+write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_profile_acceleration, 30000);
+
 %Move into Start Position
+write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_profile_acceleration, 30000);
 write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, 180/0.088);
+write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_profile_acceleration, 30000);
 write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, 100/0.088);
+write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_profile_acceleration, 30000);
 write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, 210/0.088);
+write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_profile_acceleration, 30000);
 write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, 230/0.088);
+write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_profile_acceleration, 30000);
 write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 180/0.088);
 pause(1)
 
@@ -193,72 +205,36 @@ task_select = input('select task: cube, pen, chess');
 switch task_select
     case 'cube'
         %Move into starting position for cube task
-        write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_velocity_limit, 256);
         write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, 180/0.088);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_velocity_limit, 256);
         write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, 180/0.088);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_velocity_limit, 256);
         write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, 180/0.088);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_velocity_limit, 256);
         write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, 270/0.088);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_velocity_limit, 256);
         write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 90/0.088); 
         pause(2)
     case 'pen'
         %Move into starting position for pen task
-        write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_profile_acceleration, 10000);
         write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, 2075);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_profile_acceleration, 10000);
         write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, 1338);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_profile_acceleration, 10000);
         write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, 2383);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_profile_acceleration, 10000);
         write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, 2853);
-        
-        write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_profile_acceleration, 10000);
         write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 881); 
         pause(1)
     case 'chess'
 end
 
 %Return To Start Position
-write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_velocity_limit, 128);
 write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, 180/0.088);
-
-write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_velocity_limit, 128);
 write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, 100/0.088);
-
-write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_velocity_limit, 128);
 write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, 210/0.088);
-
-write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_velocity_limit, 128);
 write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, 230/0.088);
-
-write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_velocity_limit, 128);
 write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 180/0.088);
 pause(2)
 
 %Lower to OFF Position
-write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_velocity_limit, 64);
 write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, 180/0.088);
-        
-write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_velocity_limit, 64);
 write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, 75/0.088);
-        
-write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_velocity_limit, 64);
 write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, 250/0.088);
-        
-write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_velocity_limit, 64);
 write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, 220/0.088);
-        
-write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_velocity_limit, 64);
 write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 180/0.088); 
 pause(1)
 
