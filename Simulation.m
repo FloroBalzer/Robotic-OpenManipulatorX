@@ -23,11 +23,11 @@ clf
 grid on
 xlim([-0.40, 0.40]);
 ylim([-0.40, 0.40]); 
-zlim([0, 0.80]);
+zlim([-0.4, 0.80]);
 view(135, 45);
 
 %calculate Forward Kinematics
-[T01, T12, T23, T34,T02, T03, T04, T05] = ForwardKinematics(t1, t2, t3, t4);%(t1, t2, t3, t4);
+[T01, T12, T23, T34,T45, T02, T03, T04, T05] = ForwardKinematics(t1, t2, t3, t4);%(t1, t2, t3, t4);
 
 
 
@@ -82,9 +82,18 @@ n_origin = n_origin(1:end-1);
 
 CoordinateFrame(T05, n_origin, n_origin_old);
 
-
-disp('Endposition');
-disp(T05(1:end-1,4));
+% disp('T01');
+% disp(T01);
+% disp('T12');
+% disp(T12);
+% disp('T23');
+% disp(T23);
+% disp('T34');
+% disp(T34);
+% disp('T45');
+% disp(T45);
+disp('T04');
+disp(T04);
 disp('T05');
 disp(T05);
 hold off

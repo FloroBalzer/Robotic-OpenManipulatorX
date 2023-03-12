@@ -1,29 +1,56 @@
- function [t1, t2, t3, t4] = InverseKinematics(T05)
+function [t1, t2, t3, t4] = InverseKinematics(T05)
 
-% DH parameters
-t0 = acosd((0.130^2+0.128^2-0.024^2)/(2*0.130*0.128));
-a0 = 0;         alpha0 = 0;     d1 = 0.077;  % Link 1
-a1 = 0;         alpha1 = 90;    d2 = 0;      % Link 2
-a2 = 0.128;     alpha2 = 0;     d3 = 0;      % Link 3
-a3 = 0.148;     alpha3 = 0;     d4 = 0;      % Link 4
-a4 = 0.126;     alpha4 = 0;     d5 = 0;      % Gripper
+a0 = 0;       alpha0 = 0;     d1 = 0.077;             % Link 1
+a1 = 0;       alpha1 = 90;    d2 = 0;                 % Link 2
+a2 = 0.128;   alpha2 = 0;     d3 = 0;                 % Link 3
+a3 = 0.148;   alpha3 = 0;     d4 = 0;                 % Link 4
+a4 = 0.126;   alpha4 = 0;     d5 = 0;                 % Gripper
+    
+tool_s = sqrt(T05(1,4).^2 + T05(2,4).^2);
+tool_t = T05(3,4)-d1;
 
-% Extract the position and orientation from T05
-position = T05(1:3, 4);
-orientation = T05(1:3, 1:3);
+final_x_angle = -asind(T05(3,1));
+joint4_s = tool_s - a4 *cosd(final_x_angle);
+joint4_t = tool_t - a4 * sind(final_x_angle);
+fprintf("joint4_s: %4.2f ", joint4_s);
+fprintf("joint4_t: %4.2f\n", joint4_t);
 
-% Compute the wrist center position (WC) and the orientation of link 3 (R)
-WC = position - (a4 * orientation(:,3));
-R = orientation(:, 1:2);
+%theta3 = acosd((joint4_s.^2 + joint4_t.^2 - a2.^2 - a3.^2)/(2*a2*a3));
+theta3 = -acosd((joint4_s.^2 + joint4_t.^2 - a2.^2 - a3.^2)/(2*a2*a3));
 
-% Compute the joint angles t1, t2, t3
-t1 = atan2d(WC(2), WC(1));
-t3 = acosd((norm(WC)^2 - (d1^2 + d4^2 + a2^2 + a3^2)) / (2 * a2 * a3));
-t2 = atan2d(WC(3) - d1, sqrt(WC(1)^2 + WC(2)^2)) - atan2d(a3 * sind(t3), a2 + a3*cosd(t3));
+theta2_1 = acosd(((a2+a3*cosd(theta3))*joint4_s+(a3*sind(theta3))*joint4_t)/(joint4_s.^2 + joint4_t.^2));
+theta2_2 = asind(((a2+a3*cosd(theta3))*joint4_t+(a3*sind(theta3))*joint4_s)/(joint4_s.^2 + joint4_t.^2));
+theta2 = theta2_1;
+fprintf("theta2_1: %4.2f ", theta2_1);
+fprintf("theta2_2: %4.2f\n", theta2_2);
 
-% Compute the orientation of link 1 and link 2
-R0_3 = Trans_Matrix(a0, alpha0, d1, t1) * Trans_Matrix(a1, alpha1, d2, t2) * Trans_Matrix(a2, alpha2, d3, t3);
-R3_6 = R0_3' * orientation;
-t4 = atan2d(R3_6(2, 3), R3_6(1, 3));
+theta4 = final_x_angle - (theta2+theta3);
 
+if (T05(1,4)>0 && T05(2,4)>0)
+    theta1 = atand(T05(2,4)/T05(1,4));
+elseif (T05(1,4)<0 && T05(2,4)>0)
+    theta1 = atand(T05(2,4)/T05(1,4))+180;
+elseif (T05(1,4)<0 && T05(2,4)<0)
+    theta1 = atand(T05(2,4)/T05(1,4))-180;
+else
+    theta1 = atand(T05(2,4)/T05(1,4));
+    
+
+
+t1 = theta1+180;
+t2 = theta2 + 79 + atand(0.024/0.128);
+t3 = theta3 +101 - atand(0.024/0.128);
+t4 = theta4;
+
+fprintf("t1: %4.2f\n", t1);
+fprintf("t2: %4.2f\n", t2);
+fprintf("t3: %4.2f\n", t3);
+fprintf("t4: %4.2f\n", t4);
+
+% fprintf("I_Theta1: %4.2f ", theta1);
+% fprintf("I_Theta2: %4.2f ", theta2);
+% fprintf("I_Theta3: %4.2f ", theta3);
+% fprintf("I_Theta4: %4.2f\n", theta4);
+
+    
 end

@@ -1,7 +1,7 @@
-function [T01, T12, T23, T34, T02, T03, T04, T05] = ForwardKinematics(t1, t2, t3, t4)
+function [T01, T12, T23, T34, T45, T02, T03, T04, T05] = ForwardKinematics(t1, t2, t3, t4)
 
 % DH parameters
-t0 = acosd((0.130^2+0.128^2-0.024^2)/(2*0.130*0.128));
+t0 = atand(0.024/0.128);
 
 a0 = 0;       alpha0 = 0;     d1 = 0.077;     theta1 = t1;              % Link 1
 a1 = 0;       alpha1 = 90;    d2 = 0;         theta2 = t2-t0-79;        % Link 2
@@ -22,5 +22,9 @@ T02 = T01*T12;
 T03 = T01*(T12*T23);
 T04 = T01*(T12*(T23*T34));
 T05 = T01*(T12*(T23*(T34*T45)));
+% fprintf("F_Theta1: %4.2f ", theta1);
+% fprintf("F_Theta2: %4.2f ", theta2);
+% fprintf("F_Theta3: %4.2f ", theta3);
+% fprintf("F_Theta4: %4.2f\n ", theta4);
 
 end
