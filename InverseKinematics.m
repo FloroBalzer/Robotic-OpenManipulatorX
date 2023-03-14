@@ -17,17 +17,28 @@ joint4_s = tool_s - a4 *cosd(final_x_angle);
 joint4_t = tool_t - a4 * sind(final_x_angle);
 
 gamma = acosd(((a2.^2+a3.^2)-(joint4_s.^2 + (joint4_t).^2))/(2*a2*a3));
-theta3 = 180-gamma; %elbow up
-%theta3 = -180+gamma; %elbow down
+theta3 = 180-gamma;
+
 
 alpha = atan2d(joint4_t,joint4_s);
 beta = asind((a3 * sind(gamma))/(sqrt(joint4_s.^2 + joint4_t.^2)));
+theta2_1 = alpha + beta; %elbow out
+theta2_2 = alpha - beta; %elbow in
+fprintf("theta2_1: %4.2f\n", theta2_1);
+fprintf("theta2_2: %4.2f\n", theta2_2);
+
 if alpha == beta
     theta2 = alpha*2;
 elseif beta == 0
     theta2 = alpha;
 else
-    theta2 = alpha - beta;
+    if theta2_1 > theta2_2
+        theta2 = theta2_1;
+        t2 = (real(270 - theta2 - t0));%elbow out
+    else
+        theta2 = theta2_2;
+        t2 = (real(180-theta2 + t0));%elbow in
+    end
 end
 
 
@@ -40,8 +51,14 @@ joint2_s = joint3_s - a2 * cosd(theta2);
 joint2_t = joint3_t - a2 * sind(theta2);
 
 
-
-theta4 = 180+final_x_angle - (theta2+theta3);
+if theta2 == theta2_1
+    theta4 = final_x_angle - (theta2+theta3);
+    t4 = 90-(real(theta4-2*t0));
+else
+    theta4 = 180+final_x_angle - (theta2+theta3);
+    t4 = (real(theta4));
+end
+disp(theta2+theta3);
 
 if (T05(1,4)>0 && T05(2,4)>0)
     theta1 = atand(T05(2,4)/T05(1,4));
@@ -53,11 +70,8 @@ else
     theta1 = atand(T05(2,4)/T05(1,4));
     
 
-
-t1 = (real(theta1));
-t2 = (real(theta2 + 90 - t0));%79 + atand(0.024/0.128);
-t3 = (real(theta3 + 90 + t0)); %;101 - atand(0.024/0.128);
-t4 = (real(theta4));
+t1 = (real(theta1+180));
+t3 = (real(theta3 + 90 + t0));
 
 fprintf("t1: %4.2f\n", t1);
 fprintf("t2: %4.2f\n", t2);
@@ -67,7 +81,7 @@ fprintf("\n");
 
 fprintf("alpha: %4.2f\n", alpha);
 fprintf("beta: %4.2f\n", beta);
-disp(((a2.^2+a3.^2)-(joint4_s.^2 + (joint4_t-d1).^2))/(2*a2*a3));
+%disp(((a2.^2+a3.^2)-(joint4_s.^2 + (joint4_t-d1).^2))/(2*a2*a3));
 fprintf("gamma: %4.2f\n", gamma);
 fprintf("end-angle: %4.2f\n", final_x_angle);
 fprintf("I_Theta1: %4.2f ", real(theta1));
