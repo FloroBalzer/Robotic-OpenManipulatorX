@@ -23,6 +23,9 @@ T03 = T01*(T12*T23);
 T04 = T01*(T12*(T23*T34));
 T05 = T01*(T12*(T23*(T34*T45)));
 
+% fprintf("X: Coodin: %4.2f ", theta1);
+% fprintf("F_Theta1: %4.2f ", theta1);
+% fprintf("F_Theta1: %4.2f ", theta1);
 
 %% Debugging
 % fprintf("F_Theta1: %4.2f ", theta1);

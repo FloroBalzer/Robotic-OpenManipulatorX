@@ -1,7 +1,7 @@
-Points = [28.5999, 0, 20.4766;  15,0,5;  18,0,12;  20,0,12;  22,0,12;  24,0,12];
+Points = [20, 0, 12;  22,0,12;  24,0,12;  26,0,12;  28,0,12;  30,0,12];
 
-i=3;
-%while i < size(Points,1)+1 
+i=1;
+while i < size(Points,1)+1 
     px = Points(i,1);
     py = Points(i,2);
     pz = Points(i,3);
@@ -16,9 +16,9 @@ i=3;
 %    t1 = 180;
 %    t2 = 180;
 %    t3 = 180;
-%    t4 = 180;
+%    t4 = 135;
 % disp(t2-atand(0.024/0.128)-79+t3+atand(0.024/0.128)-101+t4-180);
  Simulation(t1, t2, t3, t4, Points(1:i,1:end));
  i = i+1;
-%end
+end
 

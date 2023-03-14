@@ -1,5 +1,5 @@
 function Simulation(t1, t2, t3, t4, Points)
-clf
+%clf
 %% Coordinate Frame Nested Function
     function CoordinateFrame(T, n_origin, n_origin_old)
         
@@ -24,7 +24,7 @@ grid on
 xlim([-40, 40]);
 ylim([-40, 40]); 
 zlim([0, 80]);
-view(135, 45);
+view(0, 0);
 
 %calculate Forward Kinematics
 [T01, T12, T23, T34,T45, T02, T03, T04, T05] = ForwardKinematics(t1, t2, t3, t4);%(t1, t2, t3, t4);
@@ -83,12 +83,12 @@ n_origin = n_origin(1:end-1);
 CoordinateFrame(T05, n_origin, n_origin_old);
 
 %% Path trajectory
-i = 1;
-while i < size(Points,1)
-%     disp("enter");
-    plot3(Points(i,1), Points(i,2), Points(i,3), 'LineWidth', 1, 'Color', 'm'); 
-    i = i+1;
-end
+% i = 1;
+% while i < size(Points,1)
+% %     disp("enter");
+%     plot3(Points(i,1), Points(i,2), Points(i,3), 'LineWidth', 1, 'Color', 'm'); 
+%     i = i+1;
+% end
 
 % disp('T01');
 % disp(T01);
@@ -102,7 +102,15 @@ end
 % disp(T45);
 % disp('T04');
 % disp(T04);
-disp('T05');
-disp(T05);
+% disp('T05');
+% disp(T05);
+% x = T05(1,4);
+% y = T05(2,4);
+% z = T05(3,4);
+% phi = T05(1,3);
+% fprintf("X Coordinate: %4.2f\n", x);
+% fprintf("Y Coordinate: %4.2f\n", y);
+% fprintf("Z Coordinate: %4.2f\n", z);
+% fprintf("Theta angle: %4.2f\n", asind(phi));
 hold off
 end
