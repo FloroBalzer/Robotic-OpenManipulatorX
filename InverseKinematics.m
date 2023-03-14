@@ -47,15 +47,9 @@ else
     t2 = (real(90 - theta2 + t0));%elbow in
 end
  %% T4
-if (theta2+theta3)>180
-    correction = (((180+t0*4)-(theta2+theta3))/t0);
-else
-    correction = ((-(180+t0*4)-(theta2+theta3))/t0);
-end
-
 if px > -1 && pz > 2
-    theta4 = final_x_angle - theta2 - theta3;
-    t4 = (real(theta4)-correction*t0);
+    theta4 = final_x_angle -t2-t3;
+    t4 = (real(theta4)+180);
 else
     theta4 = 180+final_x_angle - (theta2+theta3);
     t4 = (real(theta4));
