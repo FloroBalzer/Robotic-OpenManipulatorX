@@ -1,4 +1,4 @@
-function Simulation(t1, t2, t3, t4)
+function Simulation(t1, t2, t3, t4, Points)
 clf
 %% Coordinate Frame Nested Function
     function CoordinateFrame(T, n_origin, n_origin_old)
@@ -24,7 +24,7 @@ grid on
 xlim([-40, 40]);
 ylim([-40, 40]); 
 zlim([0, 80]);
-view(0, 0);
+view(135, 45);
 
 %calculate Forward Kinematics
 [T01, T12, T23, T34,T45, T02, T03, T04, T05] = ForwardKinematics(t1, t2, t3, t4);%(t1, t2, t3, t4);
@@ -81,6 +81,14 @@ n_origin = transpose(T05*base);
 n_origin = n_origin(1:end-1);
 
 CoordinateFrame(T05, n_origin, n_origin_old);
+
+%% Path trajectory
+i = 1;
+while i < size(Points,1)
+%     disp("enter");
+    plot3(Points(i,1), Points(i,2), Points(i,3), 'LineWidth', 1, 'Color', 'm'); 
+    i = i+1;
+end
 
 % disp('T01');
 % disp(T01);

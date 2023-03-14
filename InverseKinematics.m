@@ -1,4 +1,4 @@
-function [t1, t2, t3, t4] = InverseKinematics(T05)
+function [t1, t2, t3, t4] = InverseKinematics(px, py, pz, phi)
 %% setup
 t0 = acosd((0.130^2+0.128^2-0.024^2)/(2*0.130*0.128));
 
@@ -9,25 +9,25 @@ a3 = 13.6;   alpha3 = 0;     d4 = 0;                 % Link 4
 a4 = 12.6;   alpha4 = 0;     d5 = 0;                 % Gripper
 
 %switching endposition to st space
-tool_s = sqrt(T05(1,4).^2 + T05(2,4).^2);
-tool_t = T05(3,4)-d1;
+tool_s = sqrt(px.^2 + py.^2);
+tool_t = pz-d1;
 
 %% helper formulae
-final_x_angle = asind(T05(3,1));
+final_x_angle = asind(phi);
 joint4_s = tool_s - a4 *cosd(final_x_angle);
 joint4_t = tool_t - a4 * sind(final_x_angle);
 gamma = acosd(((a2.^2+a3.^2)-(joint4_s.^2 + (joint4_t).^2))/(2*a2*a3));
 alpha = atan2d(joint4_t,joint4_s);
 beta = asind((a3 * sind(gamma))/(sqrt(joint4_s.^2 + joint4_t.^2)));
 %% T1
-if (T05(1,4)>0 && T05(2,4)>0)
-    theta1 = atand(T05(2,4)/T05(1,4));
-elseif (T05(1,4)<0 && T05(2,4)>0)
-    theta1 = atand(T05(2,4)/T05(1,4))+180;
-elseif (T05(1,4)<0 && T05(2,4)<0)
-    theta1 = atand(T05(2,4)/T05(1,4))-180;
+if (px>0 && py>0)
+    theta1 = atand(py/px);
+elseif (px<0 && py>0)
+    theta1 = atand(py/px)+180;
+elseif (px<0 && py<0)
+    theta1 = atand(py/px)-180;
 else
-    theta1 = atand(T05(2,4)/T05(1,4));
+    theta1 = atand(py/px);
 end
 t1 = (real(theta1+180));
 
@@ -36,10 +36,10 @@ theta3 = 180-gamma;
 t3 = (real(theta3 + 90 + t0));
 
 %% T2
-if T05(1,4) > -1 && T05(3,4) > 2
+if px > -1 && pz > 2
     theta2 = alpha + beta;
     t2 = (real(270 - theta2 - t0));%elbow out
-elseif T05(1,4) > -1 && T05(3,4) < 2
+elseif px > -1 && pz < 2
     theta2 = alpha + beta;
     t2 = (real(270 - theta2 - 2.5*t0));%elbow out
 else
@@ -47,27 +47,30 @@ else
     t2 = (real(90 - theta2 + t0));%elbow in
 end
  %% T4
-if T05(1,4) > -1 && T05(3,4) > 2
-    theta4 = final_x_angle - (theta2+theta3);
-    t4 = (real(theta4-2*t0));
-elseif T05(1,4) > -1 && T05(3,4) < 2
+if px > -1 && pz > 2
+    disp("enter 1");
+    theta4 = 90-final_x_angle - (theta2+theta3);
+    t4 = (real(theta4-3*t0));
+elseif px > -1 && pz < 2
+    disp("enter 2");
     theta4 = 180-final_x_angle - (theta2+theta3);
     t4 = (real(theta4-3.5*t0));
 else
+    disp("enter 3");
     theta4 = 180+final_x_angle - (theta2+theta3);
     t4 = (real(theta4));
 end
 disp(theta2+theta3);
 
 %% T1
-if (T05(1,4)>0 && T05(2,4)>0)
-    theta1 = atand(T05(2,4)/T05(1,4));
-elseif (T05(1,4)<0 && T05(2,4)>0)
-    theta1 = atand(T05(2,4)/T05(1,4))+180;
-elseif (T05(1,4)<0 && T05(2,4)<0)
-    theta1 = atand(T05(2,4)/T05(1,4))-180;
+if (px>0 && py>0)
+    theta1 = atand(py/px);
+elseif (px<0 && py>0)
+    theta1 = atand(py/px)+180;
+elseif (px<0 && py<0)
+    theta1 = atand(py/px)-180;
 else
-    theta1 = atand(T05(2,4)/T05(1,4));
+    theta1 = atand(py/px);
 end
 t1 = (real(theta1+180));
 
@@ -96,24 +99,24 @@ fprintf("I_Theta3: %4.2f ", real(theta3));
 fprintf("I_Theta4: %4.2f\n", real(theta4));
 fprintf("\n")
 
-fprintf("tool_s: %4.3f ", tool_s);
-fprintf("tool_t: %4.3f\n", tool_t);
-fprintf("\n")
-
-fprintf("joint4_s: %4.3f ", joint4_s);
-fprintf("joint4_t: %4.3f\n", joint4_t);
-fprintf("joint_4 length: %4.2f\n", sqrt((tool_s-joint4_s).^2+(tool_t-joint4_t).^2))
-fprintf("\n")
-
-fprintf("joint3_s: %4.3f ", joint3_s);
-fprintf("joint3_t: %4.3f\n", joint3_t);
-fprintf("joint_3 length: %4.2f\n", sqrt((joint4_s-joint3_s).^2+(joint4_t-joint3_t).^2))
-fprintf("\n")
-
-fprintf("joint2_s: %4.3f ", joint2_s);
-fprintf("joint2_t: %4.3f\n", joint2_t);
-fprintf("joint_2 length: %4.2f\n", sqrt((joint3_s - joint2_s).^2+(joint3_t - joint2_t).^2))
-fprintf("\n")
+% fprintf("tool_s: %4.3f ", tool_s);
+% fprintf("tool_t: %4.3f\n", tool_t);
+% fprintf("\n")
+% 
+% fprintf("joint4_s: %4.3f ", joint4_s);
+% fprintf("joint4_t: %4.3f\n", joint4_t);
+% fprintf("joint_4 length: %4.2f\n", sqrt((tool_s-joint4_s).^2+(tool_t-joint4_t).^2))
+% fprintf("\n")
+% 
+% fprintf("joint3_s: %4.3f ", joint3_s);
+% fprintf("joint3_t: %4.3f\n", joint3_t);
+% fprintf("joint_3 length: %4.2f\n", sqrt((joint4_s-joint3_s).^2+(joint4_t-joint3_t).^2))
+% fprintf("\n")
+% 
+% fprintf("joint2_s: %4.3f ", joint2_s);
+% fprintf("joint2_t: %4.3f\n", joint2_t);
+% fprintf("joint_2 length: %4.2f\n", sqrt((joint3_s - joint2_s).^2+(joint3_t - joint2_t).^2))
+% fprintf("\n")
 
 
 
