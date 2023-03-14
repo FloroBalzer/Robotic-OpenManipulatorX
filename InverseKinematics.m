@@ -1,5 +1,5 @@
 function [t1, t2, t3, t4] = InverseKinematics(T05)
-
+%% setup
 t0 = acosd((0.130^2+0.128^2-0.024^2)/(2*0.130*0.128));
 
 a0 = 0;      alpha0 = 0;     d1 = 7.7;               % Link 1
@@ -12,54 +12,14 @@ a4 = 12.6;   alpha4 = 0;     d5 = 0;                 % Gripper
 tool_s = sqrt(T05(1,4).^2 + T05(2,4).^2);
 tool_t = T05(3,4)-d1;
 
+%% helper formulae
 final_x_angle = asind(T05(3,1));
 joint4_s = tool_s - a4 *cosd(final_x_angle);
 joint4_t = tool_t - a4 * sind(final_x_angle);
-
 gamma = acosd(((a2.^2+a3.^2)-(joint4_s.^2 + (joint4_t).^2))/(2*a2*a3));
-theta3 = 180-gamma;
-
-
 alpha = atan2d(joint4_t,joint4_s);
 beta = asind((a3 * sind(gamma))/(sqrt(joint4_s.^2 + joint4_t.^2)));
-theta2_1 = alpha + beta; %elbow out
-theta2_2 = alpha - beta; %elbow in
-fprintf("theta2_1: %4.2f\n", theta2_1);
-fprintf("theta2_2: %4.2f\n", theta2_2);
-
-if alpha == beta
-    theta2 = alpha*2;
-elseif beta == 0
-    theta2 = alpha;
-else
-    if theta2_1 > theta2_2
-        theta2 = theta2_1;
-        t2 = (real(270 - theta2 - t0));%elbow out
-    else
-        theta2 = theta2_2;
-        t2 = (real(180-theta2 + t0));%elbow in
-    end
-end
-
-
-%joint position in st-space
-joint4_s = tool_s - a4 *cosd(final_x_angle);
-joint4_t = tool_t - a4 * sind(final_x_angle);
-joint3_s = joint4_s - a3 * cosd(theta2+theta3);
-joint3_t = joint4_t - a3 * sind(theta2+theta3);
-joint2_s = joint3_s - a2 * cosd(theta2);
-joint2_t = joint3_t - a2 * sind(theta2);
-
-
-if theta2 == theta2_1
-    theta4 = final_x_angle - (theta2+theta3);
-    t4 = 90-(real(theta4-2*t0));
-else
-    theta4 = 180+final_x_angle - (theta2+theta3);
-    t4 = (real(theta4));
-end
-disp(theta2+theta3);
-
+%% T1
 if (T05(1,4)>0 && T05(2,4)>0)
     theta1 = atand(T05(2,4)/T05(1,4));
 elseif (T05(1,4)<0 && T05(2,4)>0)
@@ -68,10 +28,57 @@ elseif (T05(1,4)<0 && T05(2,4)<0)
     theta1 = atand(T05(2,4)/T05(1,4))-180;
 else
     theta1 = atand(T05(2,4)/T05(1,4));
-    
-
+end
 t1 = (real(theta1+180));
+
+%% T3
+theta3 = 180-gamma;
 t3 = (real(theta3 + 90 + t0));
+
+%% T2
+if T05(1,4) > -1 && T05(3,4) > 2
+    theta2 = alpha + beta;
+    t2 = (real(270 - theta2 - t0));%elbow out
+elseif T05(1,4) > -1 && T05(3,4) < 2
+    theta2 = alpha + beta;
+    t2 = (real(270 - theta2 - 2.5*t0));%elbow out
+else
+    theta2 = alpha - beta;
+    t2 = (real(90 - theta2 + t0));%elbow in
+end
+ %% T4
+if T05(1,4) > -1 && T05(3,4) > 2
+    theta4 = final_x_angle - (theta2+theta3);
+    t4 = (real(theta4-2*t0));
+elseif T05(1,4) > -1 && T05(3,4) < 2
+    theta4 = 180-final_x_angle - (theta2+theta3);
+    t4 = (real(theta4-3.5*t0));
+else
+    theta4 = 180+final_x_angle - (theta2+theta3);
+    t4 = (real(theta4));
+end
+disp(theta2+theta3);
+
+%% T1
+if (T05(1,4)>0 && T05(2,4)>0)
+    theta1 = atand(T05(2,4)/T05(1,4));
+elseif (T05(1,4)<0 && T05(2,4)>0)
+    theta1 = atand(T05(2,4)/T05(1,4))+180;
+elseif (T05(1,4)<0 && T05(2,4)<0)
+    theta1 = atand(T05(2,4)/T05(1,4))-180;
+else
+    theta1 = atand(T05(2,4)/T05(1,4));
+end
+t1 = (real(theta1+180));
+
+%% info and debug
+%joint position in st-space
+joint4_s = tool_s - a4 *cosd(final_x_angle);
+joint4_t = tool_t - a4 * sind(final_x_angle);
+joint3_s = joint4_s - a3 * cosd(theta2+theta3);
+joint3_t = joint4_t - a3 * sind(theta2+theta3);
+joint2_s = joint3_s - a2 * cosd(theta2);
+joint2_t = joint3_t - a2 * sind(theta2);
 
 fprintf("t1: %4.2f\n", t1);
 fprintf("t2: %4.2f\n", t2);
@@ -81,7 +88,6 @@ fprintf("\n");
 
 fprintf("alpha: %4.2f\n", alpha);
 fprintf("beta: %4.2f\n", beta);
-%disp(((a2.^2+a3.^2)-(joint4_s.^2 + (joint4_t-d1).^2))/(2*a2*a3));
 fprintf("gamma: %4.2f\n", gamma);
 fprintf("end-angle: %4.2f\n", final_x_angle);
 fprintf("I_Theta1: %4.2f ", real(theta1));
