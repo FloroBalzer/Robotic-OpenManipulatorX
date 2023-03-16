@@ -42,16 +42,16 @@ theta3 = 180-gamma;
 t3 = (real(theta3 + 90 + t0));
 
 %% T2
-if px > -1 && pz > 2
+% if px > -1
     theta2 = alpha + beta;
     t2 = (real(270 - theta2 - t0));%elbow out
-elseif px > -1 && pz < 2
-    theta2 = alpha + beta;
-    t2 = (real(270 - theta2 - 2.5*t0));%elbow out
-else
-    theta2 = alpha - beta;
-    t2 = (real(90 - theta2 + t0));%elbow in
-end
+% elseif px > -1 && pz < 0
+%     theta2 = alpha + beta;
+%     t2 = (real(270 - theta2 - 2.5*t0));%elbow out
+% else
+%     theta2 = alpha - beta;
+%     t2 = (real(90 - theta2 + t0));%elbow in
+% end
  %% T4
 %if px > -1 && pz > 2
     theta4 = final_x_angle -t2-t3;
@@ -65,6 +65,8 @@ elseif (px<0 && py>0)
     theta1 = atand(py/px)+180;
 elseif (px<0 && py<0)
     theta1 = atand(py/px)-180;
+elseif (px<0 && py==0)
+    theta1 = -180;
 else
     theta1 = atand(py/px);
 end

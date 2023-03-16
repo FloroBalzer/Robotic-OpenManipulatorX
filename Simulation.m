@@ -23,8 +23,8 @@ function [robot_body] = Simulation(t1, t2, t3, t4, x, y, z, px, py, pz)
 grid on
 xlim([-40, 40]);
 ylim([-40, 40]); 
-zlim([0, 80]);
-view(120, 45);
+zlim([-10, 80]);
+view(150, 25);
 
 %calculate Forward Kinematics
 [T01, T12, T23, T34,T45, T02, T03, T04, T05] = ForwardKinematics(t1, t2, t3, t4);%(t1, t2, t3, t4);

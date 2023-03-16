@@ -6,7 +6,6 @@ endpoint = end_pos;
 
 path_vector = (1/num_points)*(endpoint-startpoint); %scaled path vector
 
-
 % trajectory matrix has the path
 trajectory = zeros(num_points, 4);
 for i = 1:num_points
