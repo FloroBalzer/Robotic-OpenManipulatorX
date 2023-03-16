@@ -28,7 +28,7 @@ theta2 = atand(s2/c2);
 t2 = theta2 +90 - t0;
 
  %% T4
- theta4 = final_x_angle - (theta2+theta3);
+ theta4 = final_x_angle - (t2+t3);
  t4 = theta4;
 
 

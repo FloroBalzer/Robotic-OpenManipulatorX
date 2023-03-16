@@ -14,8 +14,14 @@ tool_t = pz-d1;
 
 %% helper formulae
 final_x_angle = asind(sinphi);
+
 joint4_s = tool_s - a4 *cosd(final_x_angle);
-joint4_t = tool_t - a4 * sind(final_x_angle);
+if final_x_angle < 0
+    joint4_t = tool_t + a4 * sind(final_x_angle);
+else
+    joint4_t = tool_t - a4 * sind(final_x_angle);
+end
+joint4_t = tool_t + a4 * sind(final_x_angle);
 gamma = acosd(((a2.^2+a3.^2)-(joint4_s.^2 + (joint4_t).^2))/(2*a2*a3));
 alpha = atan2d(joint4_t,joint4_s);
 beta = asind((a3 * sind(gamma))/(sqrt(joint4_s.^2 + joint4_t.^2)));
@@ -47,14 +53,10 @@ else
     t2 = (real(90 - theta2 + t0));%elbow in
 end
  %% T4
-if px > -1 && pz > 2
+%if px > -1 && pz > 2
     theta4 = final_x_angle -t2-t3;
-    t4 = (real(theta4)+180);
-else
-    theta4 = 180+final_x_angle - (theta2+theta3);
-    t4 = (real(theta4));
-end
-disp(theta2+theta3);
+    t4 = (real(theta4))+540;
+%disp(theta2+theta3);
 
 %% T1
 if (px>0 && py>0)
@@ -77,22 +79,22 @@ joint3_t = joint4_t - a3 * sind(theta2+theta3);
 joint2_s = joint3_s - a2 * cosd(theta2);
 joint2_t = joint3_t - a2 * sind(theta2);
 
-fprintf("t1: %4.2f\n", t1);
-fprintf("t2: %4.2f\n", t2);
-fprintf("t3: %4.2f\n", t3);
-fprintf("t4: %4.2f\n", t4);
-fprintf("\n");
-
-fprintf("alpha: %4.2f\n", alpha);
-fprintf("beta: %4.2f\n", beta);
-fprintf("gamma: %4.2f\n", gamma);
-fprintf("end-angle: %4.2f\n", final_x_angle);
-fprintf("I_Theta1: %4.2f ", real(theta1));
-fprintf("I_Theta2: %4.2f ", real(theta2));
-fprintf("I_Theta3: %4.2f ", real(theta3));
-fprintf("I_Theta4: %4.2f\n", real(theta4));
-fprintf("\n")
-
+% fprintf("t1: %4.2f\n", t1);
+% fprintf("t2: %4.2f\n", t2);
+% fprintf("t3: %4.2f\n", t3);
+% fprintf("t4: %4.2f\n", t4);
+% fprintf("\n");
+% % 
+% fprintf("alpha: %4.2f\n", alpha);
+% fprintf("beta: %4.2f\n", beta);
+% fprintf("gamma: %4.2f\n", gamma);
+% fprintf("end-angle: %4.2f\n", final_x_angle);
+% fprintf("I_Theta1: %4.2f ", real(theta1));
+% fprintf("I_Theta2: %4.2f ", real(theta2));
+% fprintf("I_Theta3: %4.2f ", real(theta3));
+% fprintf("I_Theta4: %4.2f\n", real(theta4));
+% fprintf("\n")
+% 
 % fprintf("tool_s: %4.3f ", tool_s);
 % fprintf("tool_t: %4.3f\n", tool_t);
 % fprintf("\n")

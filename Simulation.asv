@@ -82,18 +82,10 @@ n_origin = n_origin(1:end-1);
 
 [l51, l52 , l53, l54] = CoordinateFrame(T05, n_origin, n_origin_old);
 
-%% Robot Body
-robot_body = [l11, l12 , l13, l14;
-l21, l22 , l23, l24;
-l31, l32 , l33, l34;
-l41, l42 , l43, l44;
-l51, l52 , l53, l54];
-
 %% Path trajectory
-path_point = plot3(px, py, pz, 'o', 'Color', 'b','MarkerSize',6,'MarkerFaceColor','#D9FFFF');
-X_val = [px, x]; Y_val = [py, y]; Z_val = [pz, z];
-plot3(X_val, Y_val, Z_val,'LineWidth', 1, 'Color', 'b');
-
+path_point = plot3(px, py, pz, 'o', 'Color', 'b');
+X_val = [Z_pos(1,1), origin(1,1)]; Y_val = [Z_pos(1,2), origin(1,2)]; Z_val = [Z_pos(1,3), origin(1,3)];
+plot3(X_val, Y_val, Z_val,'LineWidth', 1, 'Color', [0.6350 0.0780 0.1840]);
 
 %% Debugging and Rest
 
@@ -111,8 +103,19 @@ plot3(X_val, Y_val, Z_val,'LineWidth', 1, 'Color', 'b');
 % disp(T04);
 % disp('T05');
 % disp(T05);
-
+% x = T05(1,4);
+% y = T05(2,4);
+% z = T05(3,4);
+% phi = T05(1,3);
+% fprintf("X Coordinate: %4.2f\n", x);
+% fprintf("Y Coordinate: %4.2f\n", y);
+% fprintf("Z Coordinate: %4.2f\n", z);
+% fprintf("Theta angle: %4.2f\n", asind(phi));
 hold off
-
+robot_body = [l11, l12 , l13, l14;
+l21, l22 , l23, l24;
+l31, l32 , l33, l34;
+l41, l42 , l43, l44;
+l51, l52 , l53, l54];
 
 end

@@ -1,0 +1,37 @@
+%% Setting up
+start_pos = [10, 0, 10, 1/sqrt(2)];% format [x, y, z, sin(angle)]
+end_pos = [10, -10, 10, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
+no_point1 = 10;
+trajectory1 = easedtrajectory(start_pos, end_pos, no_point1);
+
+start_pos = [10, -10, 10, 1/sqrt(2)];% format [x, y, z, sin(angle)]
+end_pos = [20, -10, 10, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
+no_point2 = 10;
+trajectory2 = easedtrajectory(start_pos, end_pos, no_point2);
+
+start_pos = [20, -10, 10, 1/sqrt(2)];% format [x, y, z, sin(angle)]
+end_pos = [20, 10, 10, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
+no_point3 = 10;
+trajectory3 = easedtrajectory(start_pos, end_pos, no_point3);
+
+start_pos = [20, 10, 10, 1/sqrt(2)];% format [x, y, z, sin(angle)]
+end_pos = [10, 10, 10, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
+no_point4 = 10;
+trajectory4 = easedtrajectory(start_pos, end_pos, no_point4);
+
+trajectory = [trajectory1; trajectory2; trajectory3; trajectory4];
+
+%% Running Simulation
+i=1;
+while i <= 40 
+
+delete(robot_body);
+[T01, T12, T23, T34, T45, T02, T03, T04, T05] = ForwardKinematics(trajectory(i,1), trajectory(i,2), trajectory(i,3), trajectory(i,4))
+
+[robot_body] = Simulation(trajectory(i,1), trajectory(i,2), trajectory(i,3), trajectory(i,4), x-T05(1,4),y-T05(2,4),T05(3,4));
+x = T05(1,4); y = T05(2,4); z = T05(3,4)
+
+pause(0.1)
+i = i+1;
+end
+
