@@ -91,7 +91,7 @@ dxl_14                      = 14;            % Dynamixel ID: 1
 dxl_15                      = 15;            % Dynamixel ID: 1
 
 baudrate                     = 115200;
-device_name                  = 'COM8';       % Check which port is being used on your controller
+device_name                  = 'COM14';       % Check which port is being used on your controller
                                             % ex) Windows: 'COM1'   Linux: '/dev/ttyUSB0' Mac: '/dev/tty.usbserial-*'
                                             
 torque_enable               = 1;            % Value for enabling the torque
@@ -150,30 +150,6 @@ else
     input('Press any key to terminate...\n');
     return;
 end
-%% ---------Generate Trajectory--------- %%
-%Create matrix of points to travel to
-start_pos = [10, 0, 10, 1/sqrt(2)];% format [x, y, z, sin(angle)]
-end_pos = [10, -10, 10, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
-no_point1 = 10;
-trajectory = easedtrajectory(start_pos, end_pos, no_point1);
-
-start_pos = [10, -10, 10, 1/sqrt(2)];% format [x, y, z, sin(angle)]
-end_pos = [20, -10, 10, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
-no_point2 = 10;
-trajectory2 = easedtrajectory(start_pos, end_pos, no_point2);
-
-start_pos = [20, -10, 10, 1/sqrt(2)];% format [x, y, z, sin(angle)]
-end_pos = [20, 10, 10, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
-no_point3 = 10;
-trajectory3 = easedtrajectory(start_pos, end_pos, no_point3);
-
-start_pos = [20, 10, 10, 1/sqrt(2)];% format [x, y, z, sin(angle)]
-end_pos = [10, 10, 10, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
-no_point4 = 10;
-trajectory4 = easedtrajectory(start_pos, end_pos, no_point4);
-
-
-
 %% ---------Start--------- %%
 %Set actuator to Time-Based Drive Mode
 write1ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_drive_mode, 4);
@@ -196,73 +172,40 @@ write1ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_torque_enable, torqu
 write1ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_torque_enable, torque_enable);
 write1ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_torque_enable, torque_enable);
 
-%Set velocity and accelertion Profile
+%% ---------Movement sequence--------- %%
+%Set velocity and accelertion Profile, range 0-30k, lower is faster
 set_v_a(1000, 100, port_num, protocol_version);
-
 %Move into Start Position
-write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, 180/0.088);
-write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, 100/0.088);
-write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, 210/0.088);
-write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, 230/0.088);
-write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 180/0.088);
+start_position(port_num, protocol_version);
 pause(1)
 
-write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, trajectory(1,1)/0.088);
-write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, trajectory(1,2)/0.088);
-write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, trajectory(1,3)/0.088);
-write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, trajectory(1,4)/0.088);
-pause(1)
-%Test
-set_v_a(1000, 50, port_num, protocol_version);
-execute_trajectory(trajectory, no_point1, port_num, protocol_version)
-pause(2)
+%Set velocity and accelertion Profile, range 0-30k, lower is faster
+set_v_a(1000, 2000, port_num, protocol_version);
 
-execute_trajectory(trajectory2, no_point2, port_num, protocol_version)
-pause(2)
+%cube grabbing, rotating, stacking sequence
+%position are (x, y) coordinates in terms of the holes in the baseplate;
+%(0,0) being below the robot
+%cube(cube_start, cube_position, cube_end, rotation_count, rotation_position, stack_no, port_num, protocol_version)
 
-execute_trajectory(trajectory3, no_point3, port_num, protocol_version)
-pause(2)
+%pen grab and move to starting draw point
+%pen_grab(drawposition,  port_num, protocol_version)
 
-execute_trajectory(trajectory4, no_point4, port_num, protocol_version)
-pause(2)
-% task_select = input('select task: cube, pen, chess');
-% 
-% switch task_select
-%     case 'cube'
-%         %Move into starting position for cube task
-%         write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, 180/0.088);
-%         write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, 180/0.088);
-%         write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, 180/0.088);
-%         write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, 270/0.088);
-%         write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 90/0.088); 
-%         pause(2)
-%     case 'pen'
-%         %Move into starting position for pen task
-%         write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, 2075);
-%         write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, 1338);
-%         write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, 2383);
-%         write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, 2853);
-%         write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 881); 
-%         pause(1)
-%     case 'chess'
-% end
+%draw arc, less than 180 at a time
+%draw_arc(start_pos,end_pos,center_pos, num_points, port_num, protocol_version)
+
+%draw line
+%draw_line(start_pos,end_pos,num_points, port_num, protocol_version)
+
+%pen retrun after drawing, start_position is last coordinate of drawing
+%function pen_return(start_position, port_num, protocol_version)
+
 
 %Return To Start Position
-%Set velocity Profile
-write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, 180/0.088);
-write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, 100/0.088);
-write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, 210/0.088);
-write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, 230/0.088);
-write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 180/0.088);
-pause(2)
-
+start_position(port_num, protocol_version);
+pause(0.5);
 %Lower to OFF Position
-write4ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_goal_position, 180/0.088);
-write4ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_goal_position, 75/0.088);
-write4ByteTxRx(port_num, protocol_version, dxl_13, addr_pro_goal_position, 250/0.088);
-write4ByteTxRx(port_num, protocol_version, dxl_14, addr_pro_goal_position, 220/0.088);
-write4ByteTxRx(port_num, protocol_version, dxl_15, addr_pro_goal_position, 180/0.088); 
-pause(1)
+off_position(port_num, protocol_version);
+pause(1);
 
 
 
