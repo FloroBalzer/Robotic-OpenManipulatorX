@@ -91,7 +91,7 @@ dxl_14                      = 14;            % Dynamixel ID: 1
 dxl_15                      = 15;            % Dynamixel ID: 1
 
 baudrate                     = 115200;
-device_name                  = 'COM14';       % Check which port is being used on your controller
+device_name                  = 'COM10';       % Check which port is being used on your controller
                                             % ex) Windows: 'COM1'   Linux: '/dev/ttyUSB0' Mac: '/dev/tty.usbserial-*'
                                             
 torque_enable               = 1;            % Value for enabling the torque
@@ -150,7 +150,7 @@ else
     input('Press any key to terminate...\n');
     return;
 end
-%% ---------Start--------- %%
+%% ---------Setup - Start--------- %%
 %Set actuator to Time-Based Drive Mode
 write1ByteTxRx(port_num, protocol_version, dxl_11, addr_pro_drive_mode, 4);
 write1ByteTxRx(port_num, protocol_version, dxl_12, addr_pro_drive_mode, 4);
@@ -180,12 +180,18 @@ start_position(port_num, protocol_version);
 pause(1)
 
 %Set velocity and accelertion Profile, range 0-30k, lower is faster
-set_v_a(1000, 2000, port_num, protocol_version);
+set_v_a(1000, 200, port_num, protocol_version);
 
 %cube grabbing, rotating, stacking sequence
 %position are (x, y) coordinates in terms of the holes in the baseplate;
 %(0,0) being below the robot
-%cube(cube_start, cube_position, cube_end, rotation_count, rotation_position, stack_no, port_num, protocol_version)
+cube_start = [4,0];
+cube_position = [5,0];
+cube_end = [0,-6];
+rotation_count = 1;
+rotation_position = [6,6];
+stack_no = 2;
+cube(cube_start, cube_position, cube_end, rotation_count, rotation_position, stack_no, port_num, protocol_version)
 
 %pen grab and move to starting draw point
 %pen_grab(drawposition,  port_num, protocol_version)

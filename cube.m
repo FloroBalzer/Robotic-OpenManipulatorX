@@ -5,13 +5,13 @@ cube_height = 2.5;
 move_height = 10;
 height_offset = stack_no * cube_height;
 dgrid = 2.5;
-offset = dgrid;
-open_angle = 120;
-close_angle = 230;
+offset =0;
+open_angle = 140;
+close_angle = 190;
 
 %distance at which robot cannot rotate the cube on the spot
-x_rotlimit = 1;                                                 %figure out
-y_rotlimit = 1;                                                 %figure out
+x_rotlimit = 6*dgrid;                                                 %figure out
+y_rotlimit = 6*dgrid;                                                 %figure out
 %distance at which gripper orientation cannot be 90 degrees down
 x_angle_limit = 40; 
 y_angle_limit = 40;
@@ -21,20 +21,20 @@ rot_tracker = rotation_count;
 
 
 %set up  starting postion
-x_grid = cube_start(1); y_grid = cube_start(2);
-start_pos = [x_grid*dgrid, y_grid*dgrid];
+x_grid = cube_start(1)*dgrid; y_grid = cube_start(2)*dgrid;
+start_pos = [x_grid, y_grid];
 
 %set up cube postion
-x_grid2 = cube_position(1); y_grid2 = cube_position(2);
-cube_pos = [x_grid2*dgrid, y_grid2*dgrid];
+x_grid2 = cube_position(1)*dgrid; y_grid2 = cube_position(2)*dgrid;
+cube_pos = [x_grid2, y_grid2];
 
 %set up cube end position
-x_grid3 = cube_end(1); y_grid3 = cube_end(2);
-cube_endpos = [x_grid3*dgrid, y_grid3*dgrid];
+x_grid3 = cube_end(1)*dgrid; y_grid3 = cube_end(2)*dgrid;
+cube_endpos = [x_grid3, y_grid3];
 
 %if need, set up rotation position
-x_grid4 = rotation_position(1); y_grid4 = rotation_position(2);
-rotation_pos = [x_grid4*dgrid, y_grid4*dgrid];
+x_grid4 = rotation_position(1)*dgrid; y_grid4 = rotation_position(2)*dgrid;
+rotation_pos = [x_grid4, y_grid4];
 
 
 %set gripper angle condition
@@ -48,13 +48,15 @@ end
 %% moving to cube
 point_matrix = [];
 
-pos1 = [start_pos, start_pos, move_height, gripper_angle];
+pos1 = [start_pos, start_pos, 15, gripper_angle];
 pos2 = [cube_pos(1), cube_pos(2), move_height, gripper_angle];
 point_matrix = [point_matrix; pos1, pos2, 5, 1, 0, 0, 0];
 [trajectory1, no_point1] = trajectory_path(point_matrix);
 
+
 i = 1;
 while i < no_point1
+    disp(trajectory1(i,4));
     write4ByteTxRx(port_num, protocol_version, 11, 116, trajectory1(i,1)/0.088);
     write4ByteTxRx(port_num, protocol_version, 12, 116, trajectory1(i,2)/0.088);
     write4ByteTxRx(port_num, protocol_version, 13, 116, trajectory1(i,3)/0.088);
@@ -64,9 +66,9 @@ while i < no_point1
 end
 
 %% open gripper
-pause(1)
+pause(0.2)
 write4ByteTxRx(port_num, protocol_version, 15, 116, open_angle/0.088);
-pause(1)
+pause(0.2)
 
 %% lower to pick up cube 
 point_matrix = [];
@@ -87,9 +89,9 @@ while i < no_point2
 end
 
 %% close gripper
-pause(1)
-write4ByteTxRx(port_num, protocol_version, 15, 116, open_angle/0.088);
-pause(1)
+pause(0.2)
+write4ByteTxRx(port_num, protocol_version, 15, 116, close_angle/0.088);
+pause(0.2)
 
 %% raise cube after grip 
 point_matrix = [];
@@ -119,13 +121,13 @@ while rot_tracker ~= 0
         pos1 = [cube_pos(1), cube_pos(2), move_height, gripper_angle];% 
         pos2 = [rotation_pos(1), rotation_pos(2), move_height, gripper_angle];
         point_matrix = [point_matrix; pos1, pos2, 5, 1, 0, 0, 0];
-        pause(1)
+        pause(0.2)
         if too_far ==1
             %lowering cube
             pos1 = [rotation_pos(1), rotation_pos(2), move_height, gripper_angle];
             pos2 = [rotation_pos(1), rotation_pos(2), cube_height, gripper_angle];
             point_matrix = [point_matrix; pos1, pos2, 10, 1, 0, 0, 0];
-            pause(1)
+            pause(0.2)
             
             [trajectory4a, no_point4a] = trajectory_path(point_matrix);
             i = 1;
@@ -139,7 +141,7 @@ while rot_tracker ~= 0
             end
             %open gripper
             write4ByteTxRx(port_num, protocol_version, 15, 116, open_angle/0.088);
-            pause(1)
+            pause(0.5)
             
             point_matrix = [];            
             %move up
@@ -147,17 +149,17 @@ while rot_tracker ~= 0
             pos1 = [rotation_pos(1), rotation_pos(2), cube_height, gripper_angle];
             pos2 = [rotation_pos(1), rotation_pos(2), move_height, gripper_angle];
             point_matrix = [point_matrix; pos1, pos2, 10, 1, 0, 0, 0];
-            pause(1)
+            pause(0.2)
             %rotate
             pos1 = [rotation_pos(1), rotation_pos(2), move_height, gripper_angle];% 
             pos2 = [rotation_pos(1), rotation_pos(2), move_height, 1];
             point_matrix = [point_matrix; pos1, pos2, 15, 1, 0, 0, 0];
-            pause(1)
+            pause(0.2)
             %move down
             pos1 = [rotation_pos(1), rotation_pos(2), move_height, 1];% 
             pos2 = [rotation_pos(1), rotation_pos(2), cube_height, 1];
             point_matrix = [point_matrix; pos1, pos2, 10, 1, 0, 0, 0];
-            pause(1)
+            pause(0.2)
             
             [trajectory4b, no_point4b] = trajectory_path(point_matrix);
             i = 1;
@@ -171,7 +173,7 @@ while rot_tracker ~= 0
             end
             %close gripper
             write4ByteTxRx(port_num, protocol_version, 15, 116, close_angle/0.088);
-            pause(1)
+            pause(0.2)
             
             point_matrix = [];
             %move up
@@ -184,12 +186,12 @@ while rot_tracker ~= 0
         pos1 = [rotation_pos(1), rotation_pos(2), move_height, 1];% 
         pos2 = [rotation_pos(1), rotation_pos(2), move_height, 0];
         point_matrix = [point_matrix; pos1, pos2, 15, 1, 0, 0, 0];
-        pause(1)
+        pause(0.2)
         %lowering cube
         pos1 = [rotation_pos(1), rotation_pos(2), move_height, 0];
         pos2 = [rotation_pos(1), rotation_pos(2), cube_height, 0];
         point_matrix = [point_matrix; pos1, pos2, 10, 1, 0, 0, 0];
-        pause(1)
+        pause(0.2)
         
         [trajectory4c, no_point4c] = trajectory_path(point_matrix);
         i = 1;
@@ -204,24 +206,24 @@ while rot_tracker ~= 0
         
         %open gripper
         write4ByteTxRx(port_num, protocol_version, 15, 116, open_angle/0.088);
-        pause(1)
+        pause(0.2)
         
         point_matrix = [];
         %move up
         pos1 = [rotation_pos(1), rotation_pos(2), cube_height, 0];
         pos2 = [rotation_pos(1), rotation_pos(2), move_height, 0];
         point_matrix = [point_matrix; pos1, pos2, 10, 1, 0, 0, 0];
-        pause(1)
+        pause(0.2)
         %rotate
         pos1 = [rotation_pos(1), rotation_pos(2), move_height, 0];% 
         pos2 = [rotation_pos(1), rotation_pos(2), move_height, 1];
         point_matrix = [point_matrix; pos1, pos2, 15, 1, 0, 0, 0];
-        pause(1)
+        pause(0.2)
         %move down
         pos1 = [rotation_pos(1), rotation_pos(2), move_height, 1];% 
         pos2 = [rotation_pos(1), rotation_pos(2), cube_height, 1];
         point_matrix = [point_matrix; pos1, pos2, 10, 1, 0, 0, 0];
-        pause(1)
+        pause(0.2)
         
         [trajectory4d, no_point4d] = trajectory_path(point_matrix);
         i = 1;
@@ -236,14 +238,14 @@ while rot_tracker ~= 0
        
         %close gripper
         write4ByteTxRx(port_num, protocol_version, 15, 116, close_angle/0.088);
-        pause(1)
+        pause(0.2)
         
         point_matrix = [];
         %move up
         pos1 = [rotation_pos(1), rotation_pos(2), cube_height, 1];% 
         pos2 = [rotation_pos(1), rotation_pos(2), move_height, 1];
         point_matrix = [point_matrix; pos1, pos2, 10, 1, 0, 0, 0];
-        pause(1)
+        pause(0.2)
         
         [trajectory4, no_point4] = trajectory_path(point_matrix);
         i = 1;
@@ -264,17 +266,17 @@ while rot_tracker ~= 0
         pos1 = [cube_pos(1), cube_pos(2), move_height, gripper_angle];% 
         pos2 = [cube_pos(1), cube_pos(2), move_height, 0];
         point_matrix = [point_matrix; pos1, pos2, 15, 1, 0, 0, 0];
-        pause(1)
+        pause(0.2)
         %lowering cube
         pos1 = [cube_pos(1), cube_pos(2), move_height, 0];
         pos2 = [cube_pos(1), cube_pos(2), cube_height, 0];
         point_matrix = [point_matrix; pos1, pos2, 10, 1, 0, 0, 0];
-        pause(1)
+        pause(0.2)
         [trajectory4a, no_point4a] = trajectory_path(point_matrix);
         i = 1;
         while i < no_point4a
             write4ByteTxRx(port_num, protocol_version, 11, 116, trajectory4a(i,1)/0.088);
-            write4ByteTxRx(port_num, protocol_version, 12, 116, trajectory4a(ai,2)/0.088);
+            write4ByteTxRx(port_num, protocol_version, 12, 116, trajectory4a(i,2)/0.088);
             write4ByteTxRx(port_num, protocol_version, 13, 116, trajectory4a(i,3)/0.088);
             write4ByteTxRx(port_num, protocol_version, 14, 116, trajectory4a(i,4)/0.088);
             i =i+1;
@@ -282,24 +284,24 @@ while rot_tracker ~= 0
         end
         %open gripper
         write4ByteTxRx(port_num, protocol_version, 15, 116, open_angle/0.088);
-        pause(1)
+        pause(0.2)
         
         point_matrix = [];
         %move up
         pos1 = [cube_pos(1), cube_pos(2), cube_height, 0];
         pos2 = [cube_pos(1), cube_pos(2), move_height, 0];
         point_matrix = [point_matrix; pos1, pos2, 10, 1, 0, 0, 0];
-        pause(1)
+        pause(0.2)
         %rotate
         pos1 = [cube_pos(1), cube_pos(2), move_height, 0];% 
         pos2 = [cube_pos(1), cube_pos(2), move_height, 1];
         point_matrix = [point_matrix; pos1, pos2, 15, 1, 0, 0, 0];
-        pause(1)
+        pause(0.2)
         %move down
         pos1 = [cube_pos(1), cube_pos(2), move_height, 1];% 
         pos2 = [cube_pos(1), cube_pos(2), cube_height, 1];
         point_matrix = [point_matrix; pos1, pos2, 10, 1, 0, 0, 0];
-        pause(1)
+        pause(0.2)
         
         [trajectory4b, no_point4b] = trajectory_path(point_matrix);
         i = 1;
@@ -313,14 +315,14 @@ while rot_tracker ~= 0
         end
         %close gripper
         write4ByteTxRx(port_num, protocol_version, 15, 116, close_angle/0.088);
-        pause(1)
+        pause(0.2)
         
         point_matrix = [];
         %move up
-        pos1 = [cube_pos(1), cube_pos(2), cube_height, 1];% 
+        pos1 = [cube_pos(1), cube_pos(2), cube_height , 1];% 
         pos2 = [cube_pos(1), cube_pos(2), move_height, 1];
         point_matrix = [point_matrix; pos1, pos2, 10, 1, 0, 0, 0];
-        pause(1)
+        pause(0.2)
         
         [trajectory4, no_point4] = trajectory_path(point_matrix);
 
@@ -360,7 +362,7 @@ end
 point_matrix = [];
 
 pos1 = [cube_endpos(1), cube_endpos(2), move_height, gripper_angle];
-pos2 = [cube_endpos(1), cube_endpos(2), cube_height + height_offset, gripper_angle];
+pos2 = [cube_endpos(1), cube_endpos(2), height_offset, gripper_angle];
 point_matrix = [point_matrix; pos1, pos2, 5, 1, 0, 0, 0];
 [trajectory6, no_point6] = trajectory_path(point_matrix);
 
@@ -375,14 +377,14 @@ while i < no_point6
 end
 
 %% open gripper
-pause(1)
+pause(0.2)
 write4ByteTxRx(port_num, protocol_version, 15, 116, open_angle/0.088);
-pause(1)
+pause(0.2)
 
 %% raise to finish sequence
 point_matrix = [];
 
-pos1 = [cube_endpos(1), cube_endpos(2), cube_height + height_offset, gripper_angle];
+pos1 = [cube_endpos(1), cube_endpos(2), height_offset, gripper_angle];
 pos2 = [cube_endpos(1), cube_endpos(2), move_height, gripper_angle];
 point_matrix = [point_matrix; pos1, pos2, 5, 1, 0, 0, 0];
 [trajectory7, no_point7] = trajectory_path(point_matrix);
