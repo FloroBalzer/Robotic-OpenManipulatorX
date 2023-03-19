@@ -4,56 +4,60 @@
 point_matrix = [];
 
 %start here
-start_pos = [20, 0, 0, 1/sqrt(2)];% format [x, y, z, sin(angle)]
-end_pos = [0, 20, 10, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
-center_pos = [0, 0, 10];
-point_matrix = [point_matrix; start_pos, end_pos, 10, 2, center_pos];
+start_pos = [10, 0, 5, 1/sqrt(2)];% format [x, y, z, sin(angle)]
+end_pos = [10, -15, 5, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
+point_matrix = [point_matrix; start_pos, end_pos, 10, 1, 0, 0, 0];
 
-start_pos = [0, 20, 10, 1/sqrt(2)];% format [x, y, z, sin(angle)]
-end_pos = [-20, 0, 20, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
-center_pos = [0, 0, 10];
-point_matrix = [point_matrix; start_pos, end_pos, 10, 2, center_pos];
+start_pos = [10, -15, 5, 1/sqrt(2)];% format [x, y, z, sin(angle)]
+end_pos = [25, -15, 5, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
+point_matrix = [point_matrix; start_pos, end_pos, 10, 1, 0, 0, 0];
 
-
-start_pos = [-20, 0, 20, 1/sqrt(2)];% format [x, y, z, sin(angle)]
-end_pos = [0, -20, 10, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
-center_pos = [0, 0, 10];
-point_matrix = [point_matrix; start_pos, end_pos, 10, 2, center_pos];
-
-
-start_pos = [0, -20, 10, 1/sqrt(2)];% format [x, y, z, sin(angle)]
-end_pos = [20, 0, 0, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
-center_pos = [0, 0, 10];
-point_matrix = [point_matrix; start_pos, end_pos, 10, 2, center_pos];
-
-
-start_pos = [20, 0, 0, 1/sqrt(2)];% format [x, y, z, sin(angle)]
-end_pos = [20, 0, 20, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
+start_pos = [25, -15, 5, 1/sqrt(2)];% format [x, y, z, sin(angle)]
+end_pos = [25, 0, 5, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
 point_matrix = [point_matrix; start_pos, end_pos, 10, 1, 0, 0, 0];
 
 
-start_pos = [20, 0, 20, 1/sqrt(2)];% format [x, y, z, sin(angle)]
-end_pos = [0, -20, 10, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
-center_pos = [0, 0, 10];
-point_matrix = [point_matrix; start_pos, end_pos, 10, 2, center_pos];
+start_pos = [25, 0, 5, 1/sqrt(2)];% format [x, y, z, sin(angle)]
+end_pos = [10, 0, 5, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
+point_matrix = [point_matrix; start_pos, end_pos, 10, 1, 0, 0, 0];
 
 
-start_pos = [0, -20, 10, 1/sqrt(2)];% format [x, y, z, sin(angle)]
-end_pos = [-20, 0, 0, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
-center_pos = [0, 0, 10];
-point_matrix = [point_matrix; start_pos, end_pos, 10, 2, center_pos];
+start_pos = [10, 0, 5, 1/sqrt(2)];% format [x, y, z, sin(angle)]
+end_pos = [10, 0, 20, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
+point_matrix = [point_matrix; start_pos, end_pos, 10, 1, 0, 0, 0];
 
 
-start_pos = [-20, 0, 0, 1/sqrt(2)];% format [x, y, z, sin(angle)]
-end_pos = [0, 20, 10, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
-center_pos = [0, 0, 10];
-point_matrix = [point_matrix; start_pos, end_pos, 10, 2, center_pos];
+start_pos = [10, 0, 20, 1/sqrt(2)];% format [x, y, z, sin(angle)]
+end_pos = [25, 0, 20, 0]; % format [x, y, z, sin(angle)]
+point_matrix = [point_matrix; start_pos, end_pos, 10, 1, 0, 0, 0];
 
 
-start_pos = [0, 20, 10, 1/sqrt(2)];% format [x, y, z, sin(angle)]
-end_pos = [20, 0, 20, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
-center_pos = [0, 0, 10];
-point_matrix = [point_matrix; start_pos, end_pos, 10, 2, center_pos];
+start_pos = [25, 0, 20, 0];% format [x, y, z, sin(angle)]
+end_pos = [25, 0, 5, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
+point_matrix = [point_matrix; start_pos, end_pos, 10, 1, 0, 0, 0];
+
+
+start_pos = [25, 0, 5, 1/sqrt(2)];% format [x, y, z, sin(angle)]
+end_pos = [10, 0, 5, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
+point_matrix = [point_matrix; start_pos, end_pos, 10, 1, 0, 0, 0];
+
+
+start_pos = [10, 0, 5, 1/sqrt(2)];% format [x, y, z, sin(angle)]
+end_pos = [10, 0, 20, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
+point_matrix = [point_matrix; start_pos, end_pos, 10, 1, 0, 0, 0];
+
+start_pos = [10, 0, 20, 1/sqrt(2)];% format [x, y, z, sin(angle)]
+end_pos = [10, -15, 20, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
+point_matrix = [point_matrix; start_pos, end_pos, 10, 1, 0, 0, 0];
+
+
+start_pos = [10, -15, 20, 1/sqrt(2)];% format [x, y, z, sin(angle)]
+end_pos = [10, -15, 5, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
+point_matrix = [point_matrix; start_pos, end_pos, 10, 1, 0, 0, 0];
+
+start_pos = [10, -15, 5, 1/sqrt(2)];% format [x, y, z, sin(angle)]
+end_pos = [10, 0, 5, 1/sqrt(2)]; % format [x, y, z, sin(angle)]
+point_matrix = [point_matrix; start_pos, end_pos, 10, 1, 0, 0, 0];
 
 %end here
 
