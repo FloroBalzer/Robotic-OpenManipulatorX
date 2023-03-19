@@ -1,7 +1,7 @@
 function [trajectory] = circletasktrajectory(start_pos,end_pos,center_pos,num_points)
 startpoint = start_pos;
 endpoint = end_pos;
-centerpoint = center_pos;
+centerpoint = center_pos(1,1:3);
 
 radius_vector = startpoint(1,1:3)-centerpoint;
 radius_vector2 = endpoint(1,1:3)-centerpoint;

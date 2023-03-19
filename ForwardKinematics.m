@@ -7,7 +7,7 @@ a0 = 0;      alpha0 = 0;     d1 = 7.7;     theta1 = t1;              % Link 1
 a1 = 0;      alpha1 = 90;    d2 = 0;       theta2 = t2-(90-t0);      %Link 2
 a2 = 13.0;   alpha2 = 0;     d3 = 0;       theta3 = t3-(90+t0);     %Link 3
 a3 = 12.4;   alpha3 = 0;     d4 = 0;       theta4 = t4-180;          % Link 4
-a4 = 13;   alpha4 = 0;     d5 = 0;       theta5 = 0;               % Gripper
+a4 = 14.5;   alpha4 = 0;     d5 = 0;       theta5 = 0;               % Gripper
 
 
 

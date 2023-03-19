@@ -180,18 +180,31 @@ start_position(port_num, protocol_version);
 pause(1)
 
 %Set velocity and accelertion Profile, range 0-30k, lower is faster
-set_v_a(1000, 200, port_num, protocol_version);
+set_v_a(500, 100, port_num, protocol_version);
+
 
 %cube grabbing, rotating, stacking sequence
 %position are (x, y) coordinates in terms of the holes in the baseplate;
 %(0,0) being below the robot
-cube_start = [4,0];
-cube_position = [5,0];
-cube_end = [0,-6];
-rotation_count = 1;
-rotation_position = [6,6];
-stack_no = 2;
-cube(cube_start, cube_position, cube_end, rotation_count, rotation_position, stack_no, port_num, protocol_version)
+
+
+pen_grab([20,6],  port_num, protocol_version);
+pause(1);
+
+
+set_v_a(150, 100, port_num, protocol_version);
+draw_line([20,6],[20,14],50, port_num, protocol_version)
+draw_line([20,14],[12.5,14],50, port_num, protocol_version)
+draw_line([12.5,14],[20,6],50, port_num, protocol_version)
+draw_arc([20,6],[16,10],[20,10], 50, port_num, protocol_version)
+draw_arc([16,10],[20,14],[20,10], 50, port_num, protocol_version)
+
+set_v_a(500, 100, port_num, protocol_version);
+pen_return([20,14], port_num, protocol_version)
+
+
+
+
 
 %pen grab and move to starting draw point
 %pen_grab(drawposition,  port_num, protocol_version)
@@ -243,6 +256,7 @@ pause(1);
 % fprintf('[ID:%03d] Position13: %03d\n', dxl_13, typecast(uint32(dxl_13_present_position), 'int32'));
 % fprintf('[ID:%03d] Position14: %03d\n', dxl_14, typecast(uint32(dxl_14_present_position), 'int32'));
 % fprintf('[ID:%03d] Position15: %03d\n', dxl_15, typecast(uint32(dxl_15_present_position), 'int32'));
+
 
 %% ---------Power_off--------- %%
 % Disable Dynamixel Torque

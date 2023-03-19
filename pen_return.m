@@ -1,11 +1,11 @@
 function pen_return(start_position, port_num, protocol_version)
 %% set up constants
-move_height_init = 8;
-move_height = 12;
-draw_height = 6.2;
+move_height_init = 6;
+move_height = 15;
+draw_height = 6.5;
 open_angle = 120;
-close_angle = 230;
-pen_pos = [15, 16.5]
+close_angle = 226;
+pen_pos = [16, -16];
 end_position = [5, 5]
 
 
