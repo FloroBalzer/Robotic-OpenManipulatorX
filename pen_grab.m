@@ -3,7 +3,7 @@ function pen_grab(drawposition,  port_num, protocol_version)
 move_height_init = 6;
 move_height = 15;
 draw_height = 6.5;
-open_angle = 120;
+open_angle = 100;
 close_angle = 228;
 pen_pos = [19, -19];
 start_position = [5, 0];

@@ -3,10 +3,10 @@ function pen_return(start_position, port_num, protocol_version)
 move_height_init = 6;
 move_height = 15;
 draw_height = 6.5;
-open_angle = 120;
-close_angle = 226;
+open_angle = 100;
+close_angle = 228;
 pen_pos = [16, -16];
-end_position = [5, 5]
+end_position = [5, 5];
 
 
 %% raise pen

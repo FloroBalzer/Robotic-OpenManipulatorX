@@ -91,7 +91,7 @@ dxl_14                      = 14;            % Dynamixel ID: 1
 dxl_15                      = 15;            % Dynamixel ID: 1
 
 baudrate                     = 115200;
-device_name                  = 'COM6';       % Check which port is being used on your controller
+device_name                  = 'COM4';       % Check which port is being used on your controller
                                             % ex) Windows: 'COM1'   Linux: '/dev/ttyUSB0' Mac: '/dev/tty.usbserial-*'
                                             
 torque_enable               = 1;            % Value for enabling the torque
@@ -196,12 +196,12 @@ set_v_a(500, 100, port_num, protocol_version);
 % pause(1)
 
 %Task 2 rotate
-cube([4,0], [7,-7], [7,-7], 3,[6,6], 1, port_num, protocol_version)
-pause(1)
-cube([7,-7],[7,2],[7,2], 2,[6,6], 1, port_num, protocol_version)
-pause(1)
-cube([7,2],[0,7],[0,7], 1,[6,6], 1, port_num, protocol_version)
-pause(1)
+% cube([4,0], [7,-7], [7,-7], 3,[6,6], 1, port_num, protocol_version)
+% pause(1)
+% cube([7,-7],[7,2],[7,2], 2,[6,6], 1, port_num, protocol_version)
+% pause(1)
+% cube([7,2],[0,7],[0,7], 1,[6,6], 1, port_num, protocol_version)
+% pause(1)
 
 %Task 3 Stack
 % cube([4,0], [7,-7], [4,-4], 2,[6,6], 1, port_num, protocol_version)
@@ -212,25 +212,26 @@ pause(1)
 % pause(1)
 
 % 
-% pen_grab([20,6],  port_num, protocol_version);
+% pen_grab([10,18],  port_num, protocol_version);
 % pause(1);
 % 
 % 
+
+
 % set_v_a(150, 100, port_num, protocol_version);
-% draw_line([10,6],[20,14],50, port_num, protocol_version)
-% draw_line([20,14],[12.5,14],50, port_num, protocol_version)
-% draw_line([12.5,14],[20,6],50, port_num, protocol_version)
-% draw_arc([20,6],[16,10],[20,10], 50, port_num, protocol_version)
-% draw_arc([16,10],[20,14],[20,10], 50, port_num, protocol_version)
+% draw_line([10,17.5],[20,17.5],50, port_num, protocol_version)
+% draw_line([20,17.5],[15,12.5],50, port_num, protocol_version)
+% draw_line([15,12.5],[15,18],50, port_num, protocol_version)
+% draw_arc([15,18],[17.5,15],[18,17.5], 50, port_num, protocol_version)
+% draw_arc([17.5,15],[19.5,17.5],[18,17.5], 50, port_num, protocol_version)
+% draw_arc([19.5,17.5],[17,20],[18,17.5], 50, port_num, protocol_version)
 % 
 % set_v_a(500, 100, port_num, protocol_version);
-% pen_return([20,14], port_num, protocol_version)
+% pen_return([17.5,20.5], port_num, protocol_version)
 
 
-%bartender(port_num, protocol_version)
-
-
-
+% bartender(port_num, protocol_version)
+bartender_mult(5,port_num, protocol_version);
 
 
 %pen grab and move to starting draw point

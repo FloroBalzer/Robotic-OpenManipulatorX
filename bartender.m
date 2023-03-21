@@ -2,13 +2,13 @@ function bartender(port_num, protocol_version)
 %shots is the number of shots it will pour
 shot1_pos = [18, 0 ];
 distance = 5;
-bottle_pos = [-1,-11];
+bottle_pos = [-1,-13];
 dgrid = 2.5;
 handheight = 3.5*2.5;
 liftheight = 8;%how high the bottle gets lifted after pick up
-open_angle = 92;
+open_angle = 95;
 close_angle = 133;
-pourheight = 10; 
+pourheight = 8; 
 pourtime=1.5;
 
 %set up  starting postion for bottle
@@ -65,7 +65,7 @@ while i < no_point1
     i =i+1;
     pause(0.2)
 end
-pause(0.3)
+pause(0.5)
 %% close gripper
 pause(1)
 write4ByteTxRx(port_num, protocol_version, 15, 116, close_angle/0.088);
@@ -153,7 +153,7 @@ end
 point_matrix = [];
 
 pos1 = [shot1_pos(1), shot1_pos(2), handheight+liftheight, 0];
-pos2 = [bottle(1), bottle(2), handheight+liftheight, 0];
+pos2 = [bottle(1)-1.5, bottle(2), handheight+liftheight, 0];
 point_matrix = [point_matrix; pos1, pos2, 5, 1, 0, 0, 0];
 [trajectory1, no_point1] = trajectory_path(point_matrix);
 
@@ -170,8 +170,8 @@ pause(0.5)
 %% lower bottle
 point_matrix = [];
 
-pos1 = [bottle(1), bottle(2), handheight+liftheight, 0];
-pos2 = [bottle(1), bottle(2), handheight, 0];
+pos1 = [bottle(1)-1.5, bottle(2), handheight+liftheight, 0];
+pos2 = [bottle(1)-1.5, bottle(2), handheight, 0];
 point_matrix = [point_matrix; pos1, pos2, 5, 1, 0, 0, 0];
 [trajectory1, no_point1] = trajectory_path(point_matrix);
 

@@ -38,14 +38,13 @@ x_grid4 = rotation_position(1)*dgrid; y_grid4 = rotation_position(2)*dgrid;
 rotation_pos = [x_grid4, y_grid4];
 
 if (abs(cube_pos(1)) > 7 && abs(cube_pos(2)) > 7)
-    innit_height = 5;
+    innit_height = 4;
 
 % elseif (abs(cube_pos(1)) < 15 && abs(cube_pos(2)) < 15)
 %     innit_height = 0;
 else
     innit_height = cube_height-1;
 end
-
 
 
 %set gripper angle condition
