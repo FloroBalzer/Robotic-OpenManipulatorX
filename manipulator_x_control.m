@@ -91,7 +91,7 @@ dxl_14                      = 14;            % Dynamixel ID: 1
 dxl_15                      = 15;            % Dynamixel ID: 1
 
 baudrate                     = 115200;
-device_name                  = 'COM10';       % Check which port is being used on your controller
+device_name                  = 'COM6';       % Check which port is being used on your controller
                                             % ex) Windows: 'COM1'   Linux: '/dev/ttyUSB0' Mac: '/dev/tty.usbserial-*'
                                             
 torque_enable               = 1;            % Value for enabling the torque
@@ -186,21 +186,48 @@ set_v_a(500, 100, port_num, protocol_version);
 %cube grabbing, rotating, stacking sequence
 %position are (x, y) coordinates in terms of the holes in the baseplate;
 %(0,0) being below the robot
+%Task 1 pick and place
+% cube(cube_start, cube_position, cube_end, rotation_count, rotation_position, stack_no, port_num, protocol_version)
+% cube([4,0], [7,-7], [9,0], 0,[7,7], 1, port_num, protocol_version)
+% pause(1)
+% cube([9,0],[7,2],[-2,-6], 0,[7,7], 1, port_num, protocol_version)
+% pause(1)
+% cube([-2,-6],[0,7],[4,-4], 0,[7,7], 1, port_num, protocol_version)
+% pause(1)
+
+%Task 2 rotate
+cube([4,0], [7,-7], [7,-7], 3,[6,6], 1, port_num, protocol_version)
+pause(1)
+cube([7,-7],[7,2],[7,2], 2,[6,6], 1, port_num, protocol_version)
+pause(1)
+cube([7,2],[0,7],[0,7], 1,[6,6], 1, port_num, protocol_version)
+pause(1)
+
+%Task 3 Stack
+% cube([4,0], [7,-7], [4,-4], 2,[6,6], 1, port_num, protocol_version)
+% pause(1)
+% cube([4,-4],[7,2],[4,-4], 1,[6,6], 2, port_num, protocol_version)
+% pause(1)
+% cube([4,-4],[0,7],[4,-4], 0,[6,6], 3, port_num, protocol_version)
+% pause(1)
+
+% 
+% pen_grab([20,6],  port_num, protocol_version);
+% pause(1);
+% 
+% 
+% set_v_a(150, 100, port_num, protocol_version);
+% draw_line([10,6],[20,14],50, port_num, protocol_version)
+% draw_line([20,14],[12.5,14],50, port_num, protocol_version)
+% draw_line([12.5,14],[20,6],50, port_num, protocol_version)
+% draw_arc([20,6],[16,10],[20,10], 50, port_num, protocol_version)
+% draw_arc([16,10],[20,14],[20,10], 50, port_num, protocol_version)
+% 
+% set_v_a(500, 100, port_num, protocol_version);
+% pen_return([20,14], port_num, protocol_version)
 
 
-pen_grab([20,6],  port_num, protocol_version);
-pause(1);
-
-
-set_v_a(150, 100, port_num, protocol_version);
-draw_line([20,6],[20,14],50, port_num, protocol_version)
-draw_line([20,14],[12.5,14],50, port_num, protocol_version)
-draw_line([12.5,14],[20,6],50, port_num, protocol_version)
-draw_arc([20,6],[16,10],[20,10], 50, port_num, protocol_version)
-draw_arc([16,10],[20,14],[20,10], 50, port_num, protocol_version)
-
-set_v_a(500, 100, port_num, protocol_version);
-pen_return([20,14], port_num, protocol_version)
+%bartender(port_num, protocol_version)
 
 
 
