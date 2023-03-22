@@ -123,9 +123,9 @@ end
     
     
 
-shot_count = shot_no;
+
 j=1;
-while j <= 5
+while j <= shot_no
     %% pour
     point_matrix = [];
 

@@ -211,12 +211,10 @@ set_v_a(500, 100, port_num, protocol_version);
 % cube([4,-4],[0,7],[4,-4], 0,[6,6], 3, port_num, protocol_version)
 % pause(1)
 
-% 
+
+% Drawing Task
 % pen_grab([10,18],  port_num, protocol_version);
 % pause(1);
-% 
-% 
-
 
 % set_v_a(150, 100, port_num, protocol_version);
 % draw_line([10,17.5],[20,17.5],50, port_num, protocol_version)
@@ -230,21 +228,10 @@ set_v_a(500, 100, port_num, protocol_version);
 % pen_return([17.5,20.5], port_num, protocol_version)
 
 
-% bartender(port_num, protocol_version)
+%Own Task
 bartender_mult(5,port_num, protocol_version);
 
 
-%pen grab and move to starting draw point
-%pen_grab(drawposition,  port_num, protocol_version)
-
-%draw arc, less than 180 at a time
-%draw_arc(start_pos,end_pos,center_pos, num_points, port_num, protocol_version)
-
-%draw line
-%draw_line(start_pos,end_pos,num_points, port_num, protocol_version)
-
-%pen retrun after drawing, start_position is last coordinate of drawing
-%function pen_return(start_position, port_num, protocol_version)
 
 
 %Return To Start Position
